@@ -6,20 +6,35 @@ using System.Text.RegularExpressions;
 
 namespace EngStatConverter
 {
-    public partial class DataSelection : Form
+    public partial class DataSelectionForm : Form
     {
         List<string> selectionList = new List<string>();
 
-        public DataSelection()
+        public List<string> GetSelectionList()
+        {
+            return selectionList;
+        }
+
+        public void SetSelectionList(List<string> list)
+        {
+            selectionList = list;            
+        }
+
+        private string CSVFilename;
+
+        public DataSelectionForm()
         {
             InitializeComponent();
         }
 
-        string CSVFilename;
-
         private void DataSelection_Load(object sender, EventArgs e)
         {
             BuildTreeView();
+        }
+
+        public void SetFilename(string Filename)
+        {
+            CSVFilename = Filename;
         }
 
         private void BuildTreeView()
@@ -43,7 +58,7 @@ namespace EngStatConverter
                 string NextItemStart;
 
                 Start = Item.Substring(0, Item.Length > CharCount ? CharCount : Item.Length);
-                
+
                 for (var i = 1; i < header.Count; i++)
                 {
                     Item = header[i];
@@ -78,27 +93,11 @@ namespace EngStatConverter
                     }
                 }
 
-                if (selectionList.Count > 0)
+                // if (selectionList.Count > 0)
                     SetCheckStatus();
 
                 SearchTreeView(false, SearchTb.Text);
             }
-        }
-
-        public void SetFilename(string Filename)
-        {
-            CSVFilename = Filename;
-        }
-
-        public List<string> GetSelectionList()
-        {
-            return selectionList;
-        }
-
-        public void SetSelectionList(List<string> list)
-        {
-            selectionList = list;
-            
         }
 
         private void CreateSelectionList()
@@ -121,7 +120,7 @@ namespace EngStatConverter
         {
             foreach (TreeNode item in treeView1.Nodes)
             {
-                if (selectionList.Contains(item.Text))
+                if (selectionList.Contains(item.Text) | item.Text == "Timestamp")
                     item.Checked = true;
                 else
                     item.Checked = false;
@@ -219,6 +218,43 @@ namespace EngStatConverter
             }
         }
 
+        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
+        {
+            if (e.Action != TreeViewAction.Unknown)
+            {
+                if (e.Node.Nodes.Count > 0)
+                {
+                    CheckSubItems(e.Node, e.Node.Checked);
+                }
+            }
+        }
+
+        private void SelectAllFsBtn_Click(object sender, EventArgs e)
+        {
+            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3})?(_(?!_daily|prj|bck))? (Read|Write) (KiB[^ %])");
+        }
+
+        private void charCountTrb_ValueChanged(object sender, EventArgs e)
+        {
+            BuildTreeView();
+            GroupingLb.Text = charCountTrb.Value + " char grouping";
+        }
+
+        private void GroupingLb_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SelectAllFsIOPsBtn_Click(object sender, EventArgs e)
+        {
+            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3})?(_(?!_daily|prj|bck))? (Read|Write) (Ops[^ %])");
+        }
+
+        private void SearchBtn_Click(object sender, EventArgs e)
+        {
+            SearchTreeView(false, SearchTb.Text);
+        }
+
         private void CancelBtn_Click(object sender, EventArgs e)
         {
             Close();
@@ -253,43 +289,6 @@ namespace EngStatConverter
         {
             CreateSelectionList();
             Close();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            SearchTreeView(false, SearchTb.Text);
-        }
-
-        private void treeView1_AfterCheck(object sender, TreeViewEventArgs e)
-        {
-            if (e.Action != TreeViewAction.Unknown)
-            {
-                if (e.Node.Nodes.Count > 0)
-                {
-                    CheckSubItems(e.Node, e.Node.Checked);
-                }
-            }
-        }
-
-        private void charCountTrb_ValueChanged(object sender, EventArgs e)
-        {
-            BuildTreeView();
-            GroupingLb.Text = charCountTrb.Value + " char grouping";
-        }
-
-        private void SelectAllFsBtn_Click(object sender, EventArgs e)
-        {
-            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3})?(_(?!_daily|prj|bck))? (Read|Write) (KiB[^ %])");
-        }
-
-        private void GroupingLb_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SelectAllFsIOPsBtn_Click(object sender, EventArgs e)
-        {
-            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3})?(_(?!_daily|prj|bck))? (Read|Write) (Ops[^ %])");
         }
     }
 }

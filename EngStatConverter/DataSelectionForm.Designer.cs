@@ -1,6 +1,6 @@
 ﻿namespace EngStatConverter
 {
-    partial class DataSelection
+    partial class DataSelectionForm
     {
         /// <summary>
         /// Required designer variable.
@@ -89,6 +89,10 @@
             this.SaveToFileBtn.UseVisualStyleBackColor = true;
             this.SaveToFileBtn.Click += new System.EventHandler(this.SaveToFileBtn_Click);
             // 
+            // saveFileDialog1
+            // 
+            this.saveFileDialog1.DefaultExt = "esc";
+            // 
             // LoadFromFileBtn
             // 
             this.LoadFromFileBtn.Location = new System.Drawing.Point(490, 8);
@@ -99,10 +103,6 @@
             this.LoadFromFileBtn.Text = "Load Template";
             this.LoadFromFileBtn.UseVisualStyleBackColor = true;
             this.LoadFromFileBtn.Click += new System.EventHandler(this.LoadFromFileBtn_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // SearchTb
             // 
@@ -119,7 +119,7 @@
             this.SearchBtn.TabIndex = 5;
             this.SearchBtn.Text = "Search";
             this.SearchBtn.UseVisualStyleBackColor = true;
-            this.SearchBtn.Click += new System.EventHandler(this.button1_Click);
+            this.SearchBtn.Click += new System.EventHandler(this.SearchBtn_Click);
             // 
             // RegExCb
             // 
@@ -176,7 +176,7 @@
             this.SelectAllFsIOPsBtn.UseVisualStyleBackColor = true;
             this.SelectAllFsIOPsBtn.Click += new System.EventHandler(this.SelectAllFsIOPsBtn_Click);
             // 
-            // DataSelection
+            // DataSelectionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -194,7 +194,7 @@
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.OkBtn);
             this.Controls.Add(this.treeView1);
-            this.Name = "DataSelection";
+            this.Name = "DataSelectionForm";
             this.Text = "Data Selection";
             this.Load += new System.EventHandler(this.DataSelection_Load);
             ((System.ComponentModel.ISupportInitialize)(this.charCountTrb)).EndInit();
