@@ -46,7 +46,7 @@ namespace EngStatConverter
                 else
                     MessageBox.Show("File not found");
             } 
-            if (File.Exists(Path.GetDirectoryName(args[0]+"\\Default.esc")))
+            if (File.Exists(Path.GetDirectoryName(args[0]) + "\\Default.esc"))
             {
                 WriteLog("Selected Columns:", true);
                 string[] temp = System.IO.File.ReadAllLines(Path.GetDirectoryName(args[0]) + "\\Default.esc");
