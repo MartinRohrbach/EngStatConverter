@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.IO.Compression;
 
 namespace EngStatConverter
 {
@@ -43,7 +44,11 @@ namespace EngStatConverter
             TreeNode node;
             int CharCount = charCountTrb.Value;
 
-            using (var stream = File.OpenRead(CSVFilename))
+            Stream stream = File.OpenRead(CSVFilename);
+            if (CSVFilename.EndsWith("gz"))
+            {
+                stream = new GZipStream(stream, System.IO.Compression.CompressionMode.Decompress);
+            }
             using (var reader = new StreamReader(stream))
             {
                 var data = CsvParser.ParseHeadAndTail(reader, ',', '"');
