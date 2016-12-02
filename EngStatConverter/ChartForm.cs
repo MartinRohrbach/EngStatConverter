@@ -19,6 +19,8 @@ namespace EngStatConverter
         private string ChartTitle;
         private int ChartType =0 ;
         private bool ChartStacked = false;
+        private DateTime ChartMin;
+        private DateTime ChartMax;
 
         public ChartForm()
         {
@@ -50,6 +52,10 @@ namespace EngStatConverter
                     NewSeries(chart, ChartSelectionList[i], ChartValue[0], ChartValue[i]);
                 }
                 AxisMaxTb.Text = chart.ChartAreas[0].AxisY.Maximum.ToString();
+
+                ChartMin = DateTime.ParseExact(ChartValue[0][0], "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+                ChartMax = DateTime.ParseExact(ChartValue[0][ChartValue[0].Count - 1], "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+
             }
             finally
             {
@@ -140,6 +146,50 @@ namespace EngStatConverter
         private void ApplyBtn_Click(object sender, EventArgs e)
         {
             chart.ChartAreas[0].AxisY.Maximum = Int32.Parse(AxisMaxTb.Text);          
+        }
+
+        private void chart_MouseClick(object sender, MouseEventArgs e)
+        {
+            //switch (e.Button)
+            //{
+            //    case MouseButtons.Right:
+            //    {
+            //        MouseClickPositionX = e.X;
+            //        MouseClickPositionY = e.Y;
+            //        ChartContextMenu.Show(this, new Point(e.X, e.Y));//places the menu at the pointer position
+            //    }
+            //    break;
+            //    case MouseButtons.Left:
+            //    {
+            //        Point chartLocationOnForm = chart.FindForm().PointToClient(chart.Parent.PointToScreen(chart.Location));
+            //        MessageBox.Show(DateTime.FromOADate(chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X)).ToString());
+            //    }
+            //        break;
+            //}
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {            
+            ChartMin = (DateTime.FromOADate(chart.ChartAreas[0].AxisX.PixelPositionToValue(ChartContextMenu.Left - Left - 20)));
+            chart.ChartAreas[0].AxisX.Minimum = chart.ChartAreas[0].AxisX.PixelPositionToValue(ChartContextMenu.Left - Left - 20);
+        }
+
+        private void SetEndTimeCMI_Click(object sender, EventArgs e)
+        {
+            ChartMax = (DateTime.FromOADate(chart.ChartAreas[0].AxisX.PixelPositionToValue(ChartContextMenu.Left - Left - 20)));
+            chart.ChartAreas[0].AxisX.Maximum = chart.ChartAreas[0].AxisX.PixelPositionToValue(ChartContextMenu.Left - Left - 20);
+        }
+
+        private void ResetTimeFilterCMI_Click(object sender, EventArgs e)
+        {
+            System.DateTime x = new DateTime();
+
+            x = DateTime.ParseExact(ChartValue[0][ChartValue[0].Count - 1], "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            chart.ChartAreas[0].AxisX.Maximum = x.ToOADate();
+
+            x = DateTime.ParseExact(ChartValue[0][0], "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            chart.ChartAreas[0].AxisX.Minimum = x.ToOADate();
+
         }
     }
 }

@@ -274,6 +274,7 @@ namespace EngStatConverter
                         string Title = this.Text;
                         Title = Title.Replace("Eng Stats Converter - ", "");
                         Title = Title.Replace(".log", "");
+                        Title = Title.Replace(".csv", "");
                         Title = Title.Replace("engineering_serverstats", "");
                         Title = Title.Replace("_", " ");
 

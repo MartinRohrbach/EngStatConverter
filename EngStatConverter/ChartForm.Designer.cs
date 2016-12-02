@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.CancelBtn = new System.Windows.Forms.Button();
             this.SaveImageBtn = new System.Windows.Forms.Button();
@@ -38,7 +39,12 @@
             this.AxisMaxTb = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ApplyBtn = new System.Windows.Forms.Button();
+            this.ChartContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.SetStartTimeCMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.SetEndTimeCMI = new System.Windows.Forms.ToolStripMenuItem();
+            this.ResetTimeFilterCMI = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
+            this.ChartContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // chart
@@ -46,22 +52,24 @@
             this.chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.chart.ChartAreas.Add(chartArea2);
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
-            legend2.Name = "Legend1";
-            this.chart.Legends.Add(legend2);
+            chartArea1.Name = "ChartArea1";
+            this.chart.ChartAreas.Add(chartArea1);
+            this.chart.ContextMenuStrip = this.ChartContextMenu;
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Bottom;
+            legend1.Name = "Legend1";
+            this.chart.Legends.Add(legend1);
             this.chart.Location = new System.Drawing.Point(12, 12);
             this.chart.Name = "chart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            series2.YValuesPerPoint = 6;
-            this.chart.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            series1.YValuesPerPoint = 6;
+            this.chart.Series.Add(series1);
             this.chart.Size = new System.Drawing.Size(689, 387);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart2";
+            this.chart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chart_MouseClick);
             // 
             // CancelBtn
             // 
@@ -122,6 +130,38 @@
             this.ApplyBtn.UseVisualStyleBackColor = true;
             this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtn_Click);
             // 
+            // ChartContextMenu
+            // 
+            this.ChartContextMenu.AccessibleRole = System.Windows.Forms.AccessibleRole.Chart;
+            this.ChartContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SetStartTimeCMI,
+            this.SetEndTimeCMI,
+            this.ResetTimeFilterCMI});
+            this.ChartContextMenu.Name = "ChartContextMenu";
+            this.ChartContextMenu.Size = new System.Drawing.Size(162, 92);
+            this.ChartContextMenu.Text = "Set X Axis Min";
+            // 
+            // SetStartTimeCMI
+            // 
+            this.SetStartTimeCMI.Name = "SetStartTimeCMI";
+            this.SetStartTimeCMI.Size = new System.Drawing.Size(161, 22);
+            this.SetStartTimeCMI.Text = "Set StartTime";
+            this.SetStartTimeCMI.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // SetEndTimeCMI
+            // 
+            this.SetEndTimeCMI.Name = "SetEndTimeCMI";
+            this.SetEndTimeCMI.Size = new System.Drawing.Size(161, 22);
+            this.SetEndTimeCMI.Text = "Set End Time";
+            this.SetEndTimeCMI.Click += new System.EventHandler(this.SetEndTimeCMI_Click);
+            // 
+            // ResetTimeFilterCMI
+            // 
+            this.ResetTimeFilterCMI.Name = "ResetTimeFilterCMI";
+            this.ResetTimeFilterCMI.Size = new System.Drawing.Size(161, 22);
+            this.ResetTimeFilterCMI.Text = "Reset Time Filter";
+            this.ResetTimeFilterCMI.Click += new System.EventHandler(this.ResetTimeFilterCMI_Click);
+            // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -137,6 +177,7 @@
             this.Name = "ChartForm";
             this.Load += new System.EventHandler(this.ChartForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
+            this.ChartContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -151,5 +192,9 @@
         private System.Windows.Forms.TextBox AxisMaxTb;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button ApplyBtn;
+        private System.Windows.Forms.ContextMenuStrip ChartContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem SetStartTimeCMI;
+        private System.Windows.Forms.ToolStripMenuItem SetEndTimeCMI;
+        private System.Windows.Forms.ToolStripMenuItem ResetTimeFilterCMI;
     }
 }
