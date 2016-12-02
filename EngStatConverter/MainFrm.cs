@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using System.Collections;
+using System.IO.Compression;
 
 namespace EngStatConverter
 {
@@ -122,7 +123,13 @@ namespace EngStatConverter
                         listView1.ListViewItemSorter = null;
                         listView1.Clear();
                         Rows.Clear();
-                        using (var stream = File.OpenRead(openFileDialog.FileName))
+
+                        String filename = openFileDialog.FileName;
+                        Stream stream = File.OpenRead(filename);
+                        if (filename.EndsWith("gz"))
+                        {
+                            stream = new GZipStream(stream, System.IO.Compression.CompressionMode.Decompress);
+                        }
                         using (var reader = new StreamReader(stream))
                         {
                             var data = CsvParser.ParseHeadAndTail(reader, ',', '"');

@@ -46,7 +46,7 @@
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "log|*.log|csv|*.csv";
+            this.openFileDialog.Filter = "All supported (*.log;*.log.gz;*.csv)|*.log;*.log.gz;*.csv|log|*.log|log.gz|*.log.gz|csv|*.csv";
             // 
             // listView1
             // 
