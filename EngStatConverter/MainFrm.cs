@@ -256,10 +256,11 @@ namespace EngStatConverter
 
                                 for (int RowIndex = 0; RowIndex < listView1.Items.Count; RowIndex++)
                                 {
-                                    ChartValue[ColIndex].Add(listView1.Items[RowIndex].SubItems[ColIndex].Text);
+                                    ChartValue[ColIndex].Add(listView1.Items[RowIndex].SubItems[header.Index].Text);
                                 }
-                                ColIndex++;
+                                ColIndex++;                              
                             }
+                            
                         }
                         _ChartForm.SetChartSelectionList(ChartSelectionList);
 
