@@ -204,7 +204,7 @@ namespace EngStatConverter
         {
             if (Rows.Count > 0)
             {
-                saveFileDialog.FileName = Path.GetFileNameWithoutExtension(openFileDialog.FileName) + ".csv";
+                saveFileDialog.FileName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(openFileDialog.FileName)) + ".csv";
                 saveFileDialog.ShowDialog();
                 if (saveFileDialog.FileName != "")
                 {
