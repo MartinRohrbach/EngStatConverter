@@ -42,6 +42,7 @@
             this.ChooseSourceFileBtn = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.backgroundWorkerConversion = new System.ComponentModel.BackgroundWorker();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -196,6 +197,14 @@
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 3;
             // 
+            // backgroundWorkerConversion
+            // 
+            this.backgroundWorkerConversion.WorkerReportsProgress = true;
+            this.backgroundWorkerConversion.WorkerSupportsCancellation = true;
+            this.backgroundWorkerConversion.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorkerConversion_DoWork);
+            this.backgroundWorkerConversion.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerConversion_ProgressChanged);
+            this.backgroundWorkerConversion.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerConversion_RunWorkerCompleted);
+            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -237,6 +246,7 @@
         private System.Windows.Forms.Button AboutBtn;
         private System.Windows.Forms.Button ExcelBtn;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.ComponentModel.BackgroundWorker backgroundWorkerConversion;
     }
 }
 

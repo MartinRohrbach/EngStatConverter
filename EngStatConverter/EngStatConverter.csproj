@@ -92,6 +92,12 @@
     <Compile Include="AboutFrm.Designer.cs">
       <DependentUpon>AboutFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ProgressDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProgressDialog.Designer.cs">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainFrm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -118,8 +124,12 @@
     <EmbeddedResource Include="AboutFrm.resx">
       <DependentUpon>AboutFrm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ProgressDialog.resx">
+      <DependentUpon>ProgressDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainFrm.resx">
       <DependentUpon>MainFrm.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DataSelectionForm.resx">
       <DependentUpon>DataSelectionForm.cs</DependentUpon>
@@ -181,15 +191,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="Microsoft.Office.Core">
-      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
-      <VersionMajor>2</VersionMajor>
-      <VersionMinor>5</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="MsoEuro">
       <Guid>{76F6F3F5-9937-11D2-93BB-00105A994D2C}</Guid>
       <VersionMajor>1</VersionMajor>
