@@ -78,7 +78,7 @@
             // 
             // StackedCb
             // 
-            this.StackedCb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.StackedCb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.StackedCb.AutoSize = true;
             this.StackedCb.Location = new System.Drawing.Point(201, 301);
             this.StackedCb.Name = "StackedCb";
@@ -90,6 +90,7 @@
             // 
             // panel1
             // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.panel1.Controls.Add(this.LineRb);
             this.panel1.Controls.Add(this.SplineRb);
             this.panel1.Controls.Add(this.BarRb);
@@ -102,7 +103,7 @@
             // 
             this.LineRb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.LineRb.AutoSize = true;
-            this.LineRb.Location = new System.Drawing.Point(0, 4);
+            this.LineRb.Location = new System.Drawing.Point(5, 5);
             this.LineRb.Name = "LineRb";
             this.LineRb.Size = new System.Drawing.Size(45, 17);
             this.LineRb.TabIndex = 10;
@@ -114,7 +115,7 @@
             // 
             this.SplineRb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SplineRb.AutoSize = true;
-            this.SplineRb.Location = new System.Drawing.Point(0, 50);
+            this.SplineRb.Location = new System.Drawing.Point(5, 51);
             this.SplineRb.Name = "SplineRb";
             this.SplineRb.Size = new System.Drawing.Size(54, 17);
             this.SplineRb.TabIndex = 9;
@@ -126,7 +127,7 @@
             // 
             this.BarRb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.BarRb.AutoSize = true;
-            this.BarRb.Location = new System.Drawing.Point(0, 27);
+            this.BarRb.Location = new System.Drawing.Point(5, 28);
             this.BarRb.Name = "BarRb";
             this.BarRb.Size = new System.Drawing.Size(41, 17);
             this.BarRb.TabIndex = 8;

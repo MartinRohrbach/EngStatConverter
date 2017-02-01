@@ -10,6 +10,7 @@ namespace EngStatConverter
     public partial class DataSelectionForm : Form
     {
         List<string> selectionList = new List<string>();
+        string StartDir;
 
         public List<string> GetSelectionList()
         {
@@ -30,6 +31,16 @@ namespace EngStatConverter
 
         private void DataSelection_Load(object sender, EventArgs e)
         {
+            string[] args = Environment.GetCommandLineArgs();
+            StartDir = Path.GetDirectoryName(args[0]);
+
+            string[] TemplateFiles = Directory.GetFiles(StartDir,"*.esc");
+
+            TemplateSelBox.Items.Clear();
+            foreach (string Template in TemplateFiles)
+                TemplateSelBox.Items.Add(Path.GetFileNameWithoutExtension(Template));
+
+
             BuildTreeView();
         }
 
@@ -132,8 +143,10 @@ namespace EngStatConverter
                 if (item.Nodes.Count > 0)
                     foreach (TreeNode subItem in item.Nodes)
                         if (selectionList.Contains(subItem.Text))
+                        {
                             subItem.Checked = true;
-
+                            subItem.Parent.Expand();
+                        }
             }
             SetCheckStatusParentNode();
         }
@@ -148,11 +161,8 @@ namespace EngStatConverter
                     foreach (TreeNode subNode in item.Nodes)
                         if (subNode.Checked == false)
                             allChecked = false;
-                    item.Checked = allChecked;
+                    item.Checked = allChecked;                    
                 }
-                     
-                
-
         }
 
         private void CheckSubItems(TreeNode treeNode, bool nodeChecked)
@@ -173,7 +183,10 @@ namespace EngStatConverter
             foreach (TreeNode node in treeView1.Nodes)
             {
                 if ((SearchPattern != "") && RegExMatch(node.Text, SearchPattern))
+                {
                     node.ForeColor = System.Drawing.Color.Red;
+                    node.Checked = select;
+                }
                 else
                     node.ForeColor = System.Drawing.Color.Black;
                 if (node.Nodes.Count > 0)
@@ -260,6 +273,11 @@ namespace EngStatConverter
             SearchTreeView(false, SearchTb.Text);
         }
 
+        private void SearchMarkBtn_Click(object sender, EventArgs e)
+        {
+            SearchTreeView(true, SearchTb.Text);
+        }
+
         private void CancelBtn_Click(object sender, EventArgs e)
         {
             Close();
@@ -281,19 +299,55 @@ namespace EngStatConverter
             openFileDialog1.Filter = "Selection Files|*.esc";
             openFileDialog1.ShowDialog();
             if (File.Exists(openFileDialog1.FileName))
-            {
-                selectionList.Clear();
-                string[] temp = System.IO.File.ReadAllLines(openFileDialog1.FileName);
-                foreach (string line in temp)
-                    selectionList.Add(line);
-                SetCheckStatus();
-            }
+                LoadTemplate(openFileDialog1.FileName);
         }
 
         private void OkBtn_Click(object sender, EventArgs e)
         {
             CreateSelectionList();
             Close();
+        }
+
+        private void ClearBtn_Click(object sender, EventArgs e)
+        {
+            selectionList.Clear();
+            foreach (TreeNode node in treeView1.Nodes)
+            {
+                node.ForeColor = System.Drawing.Color.Black;
+                if (node.Text != "Timestamp") node.Checked = false;
+                node.Collapse(false);
+                if (node.Nodes.Count > 0)
+                    foreach (TreeNode subNode in node.Nodes)
+                    {
+                        subNode.ForeColor = System.Drawing.Color.Black;
+                        subNode.Checked = false;
+                    }
+            }
+        }
+
+        private void ApplyTemplateBtn_Click(object sender, EventArgs e)
+        {
+            // MessageBox.Show(StartDir + TemplateSelBox.SelectedItem.ToString() + ".esc");
+            LoadTemplate(StartDir + "\\" + TemplateSelBox.SelectedItem.ToString() + ".esc");
+        }
+
+        private void LoadTemplate(string Filename)
+        {
+            if (File.Exists(Filename))
+            {
+                selectionList.Clear();
+                string[] temp = System.IO.File.ReadAllLines(Filename);
+                foreach (string line in temp)
+                    selectionList.Add(line);
+                SetCheckStatus();
+                ApplyTemplateBtn.Enabled = false;
+                TemplateSelBox.Text = "";
+            }
+        }
+
+        private void TemplateSelBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyTemplateBtn.Enabled = true;
         }
     }
 }

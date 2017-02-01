@@ -33,85 +33,102 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.Log = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.ExcelBtn = new System.Windows.Forms.Button();
+            this.AboutBtn = new System.Windows.Forms.Button();
             this.ChartBtn = new System.Windows.Forms.Button();
-            this.showValuesCB = new System.Windows.Forms.CheckBox();
             this.ExportNewCSVBtn = new System.Windows.Forms.Button();
             this.StartConversionBtn = new System.Windows.Forms.Button();
             this.SelectColumnsBtn = new System.Windows.Forms.Button();
-            this.Status = new System.Windows.Forms.Label();
             this.ChooseSourceFileBtn = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
+            this.splitContainer1.Panel1.SuspendLayout();
+            this.splitContainer1.Panel2.SuspendLayout();
+            this.splitContainer1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
             // 
-            this.openFileDialog.Filter = "All supported (*.log;*.log.gz;*.csv)|*.log;*.log.gz;*.csv|log|*.log|log.gz|*.log.gz|csv|*.csv";
+            this.openFileDialog.Filter = "All supported (*.log;*.log.gz;*.csv)|*.log;*.log.gz;*.csv|log|*.log|log.gz|*.log." +
+    "gz|csv|*.csv";
             // 
             // listView1
             // 
             this.listView1.AccessibleRole = System.Windows.Forms.AccessibleRole.ScrollBar;
             this.listView1.Alignment = System.Windows.Forms.ListViewAlignment.Default;
-            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.AllowDrop = true;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listView1.GridLines = true;
-            this.listView1.Location = new System.Drawing.Point(12, 53);
+            this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
             this.listView1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.listView1.Size = new System.Drawing.Size(684, 282);
+            this.listView1.Size = new System.Drawing.Size(694, 308);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.listView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             // 
             // Log
             // 
-            this.Log.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.Log.Location = new System.Drawing.Point(0, 353);
+            this.Log.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.Log.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.Log.Location = new System.Drawing.Point(0, 0);
             this.Log.Multiline = true;
             this.Log.Name = "Log";
             this.Log.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.Log.Size = new System.Drawing.Size(708, 116);
+            this.Log.Size = new System.Drawing.Size(694, 109);
             this.Log.TabIndex = 2;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.ExcelBtn);
+            this.panel1.Controls.Add(this.AboutBtn);
             this.panel1.Controls.Add(this.ChartBtn);
-            this.panel1.Controls.Add(this.showValuesCB);
             this.panel1.Controls.Add(this.ExportNewCSVBtn);
             this.panel1.Controls.Add(this.StartConversionBtn);
             this.panel1.Controls.Add(this.SelectColumnsBtn);
-            this.panel1.Controls.Add(this.Status);
             this.panel1.Controls.Add(this.ChooseSourceFileBtn);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.ForeColor = System.Drawing.Color.Black;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(708, 47);
+            this.panel1.Size = new System.Drawing.Size(694, 47);
             this.panel1.TabIndex = 1;
+            // 
+            // ExcelBtn
+            // 
+            this.ExcelBtn.Location = new System.Drawing.Point(425, 12);
+            this.ExcelBtn.Name = "ExcelBtn";
+            this.ExcelBtn.Size = new System.Drawing.Size(100, 23);
+            this.ExcelBtn.TabIndex = 9;
+            this.ExcelBtn.Text = "Std Perf Excel";
+            this.ExcelBtn.UseVisualStyleBackColor = true;
+            this.ExcelBtn.Click += new System.EventHandler(this.ExcelBtn_Click);
+            // 
+            // AboutBtn
+            // 
+            this.AboutBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.AboutBtn.Location = new System.Drawing.Point(637, 12);
+            this.AboutBtn.Name = "AboutBtn";
+            this.AboutBtn.Size = new System.Drawing.Size(45, 23);
+            this.AboutBtn.TabIndex = 8;
+            this.AboutBtn.Text = "About";
+            this.AboutBtn.UseVisualStyleBackColor = true;
+            this.AboutBtn.Click += new System.EventHandler(this.AboutBtn_Click);
             // 
             // ChartBtn
             // 
-            this.ChartBtn.Location = new System.Drawing.Point(425, 12);
+            this.ChartBtn.Location = new System.Drawing.Point(531, 12);
             this.ChartBtn.Name = "ChartBtn";
             this.ChartBtn.Size = new System.Drawing.Size(100, 23);
             this.ChartBtn.TabIndex = 7;
-            this.ChartBtn.Text = "Chart";
+            this.ChartBtn.Text = "Quick Chart";
             this.ChartBtn.UseVisualStyleBackColor = true;
             this.ChartBtn.Click += new System.EventHandler(this.ChartBtn_Click);
-            // 
-            // showValuesCB
-            // 
-            this.showValuesCB.AutoSize = true;
-            this.showValuesCB.Checked = true;
-            this.showValuesCB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showValuesCB.Location = new System.Drawing.Point(576, 16);
-            this.showValuesCB.Name = "showValuesCB";
-            this.showValuesCB.Size = new System.Drawing.Size(88, 17);
-            this.showValuesCB.TabIndex = 6;
-            this.showValuesCB.Text = "Show Values";
-            this.showValuesCB.UseVisualStyleBackColor = true;
             // 
             // ExportNewCSVBtn
             // 
@@ -143,15 +160,6 @@
             this.SelectColumnsBtn.UseVisualStyleBackColor = true;
             this.SelectColumnsBtn.Click += new System.EventHandler(this.SelectColumnsBtn_Click);
             // 
-            // Status
-            // 
-            this.Status.AutoSize = true;
-            this.Status.Location = new System.Drawing.Point(670, 17);
-            this.Status.Name = "Status";
-            this.Status.Size = new System.Drawing.Size(16, 13);
-            this.Status.TabIndex = 2;
-            this.Status.Text = "...";
-            // 
             // ChooseSourceFileBtn
             // 
             this.ChooseSourceFileBtn.Location = new System.Drawing.Point(12, 12);
@@ -166,22 +174,51 @@
             // 
             this.saveFileDialog.Filter = "csv|*.csv";
             // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(0, 41);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.listView1);
+            this.splitContainer1.Panel1.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel1_Paint);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.Log);
+            this.splitContainer1.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.splitContainer1_Panel2_Paint);
+            this.splitContainer1.Size = new System.Drawing.Size(694, 421);
+            this.splitContainer1.SplitterDistance = 308;
+            this.splitContainer1.TabIndex = 3;
+            // 
             // MainForm
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(708, 469);
+            this.ClientSize = new System.Drawing.Size(694, 461);
+            this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.Log);
-            this.Controls.Add(this.listView1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(700, 500);
+            this.MinimumSize = new System.Drawing.Size(710, 500);
             this.Name = "MainForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.Text = "Eng Stats Converter";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.splitContainer1.Panel1.ResumeLayout(false);
+            this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
+            this.splitContainer1.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -192,13 +229,14 @@
         private System.Windows.Forms.TextBox Log;
 
         private System.Windows.Forms.Button ChooseSourceFileBtn;
-        private System.Windows.Forms.Label Status;
         private System.Windows.Forms.Button SelectColumnsBtn;
         private System.Windows.Forms.Button StartConversionBtn;
         private System.Windows.Forms.Button ExportNewCSVBtn;
-        private System.Windows.Forms.CheckBox showValuesCB;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
         private System.Windows.Forms.Button ChartBtn;
+        private System.Windows.Forms.Button AboutBtn;
+        private System.Windows.Forms.Button ExcelBtn;
+        private System.Windows.Forms.SplitContainer splitContainer1;
     }
 }
 

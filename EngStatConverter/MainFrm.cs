@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using System.Collections;
 using System.IO.Compression;
+using Microsoft.Win32;
+using System.Diagnostics;
+
 
 namespace EngStatConverter
 {
@@ -25,6 +24,11 @@ namespace EngStatConverter
         private bool TableFinshed;
         private int ChartType = 0;
         private bool ChartStacked = false;
+        private string CSVFileName;
+        private string StartDir;
+        private int DefaultSelectionListCount;
+        private bool ExcelFound;
+        private string ExcelPath;
 
         public MainForm()
         {
@@ -36,28 +40,65 @@ namespace EngStatConverter
 
             TableFinshed = false;
             string[] args = Environment.GetCommandLineArgs();
+
+            StartDir = Path.GetDirectoryName(args[0]);
+
             if (args.Length > 1)
             {
                 if (File.Exists(args[1]))
                 {
-                    openFileDialog.FileName = args[1];
-                    WriteLog("CSV File: " + openFileDialog.FileName + NewLine, true);
-                    this.Text = "Eng Stats Converter - " + Path.GetFileName(openFileDialog.FileName);
+                    CSVFileName = args[1];
+                    WriteLog("CSV File: " + CSVFileName + NewLine, true);
+                    this.Text = "Eng Stats Converter - " + Path.GetFileName(CSVFileName);
                 }
                 else
                     MessageBox.Show("File not found");
             } 
-            if (File.Exists(Path.GetDirectoryName(args[0]) + "\\Default.esc"))
+            if (File.Exists(StartDir + "\\Default.esc"))
             {
                 WriteLog("Selected Columns:", true);
-                string[] temp = System.IO.File.ReadAllLines(Path.GetDirectoryName(args[0]) + "\\Default.esc");
+                string[] temp = System.IO.File.ReadAllLines(StartDir + "\\Default.esc");
                 foreach (string line in temp)
                 {
                     SelectionList.Add(line);
                     WriteLog(line, false);
                 }
+                DefaultSelectionListCount = SelectionList.Count;
+            } else DefaultSelectionListCount = -1;
+
+            if (File.Exists(StartDir + "\\PerfAnalyseTemplate.xlsm"))
+                ExcelFound = true;
+            else
+                ExcelFound = false;
+
+            try
+            {
+                using (RegistryKey key = Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\excel.exe"))
+                {
+                    if (key != null)
+                    {
+                        ExcelPath = key.GetValue("Path").ToString() + "excel.exe";
+                    }
+                    else
+                        ExcelFound = false;
+                }
+            }
+            catch (Exception ex)
+            {
+                ExcelFound = false;
             }
 
+            SetButtonStatus();
+
+        }
+
+        private void SetButtonStatus()
+        {
+            ExcelBtn.Enabled = (ExcelFound) & (Rows.Count > 0);
+            StartConversionBtn.Enabled = (File.Exists(CSVFileName)) & (SelectionList.Count > 0);
+            ExportNewCSVBtn.Enabled = (Rows.Count > 0);
+            SelectColumnsBtn.Enabled = (File.Exists(CSVFileName));
+            ChartBtn.Enabled = TableFinshed;
         }
 
         public void SetSelection (List<string> List)
@@ -65,166 +106,13 @@ namespace EngStatConverter
             SelectionList = List;
         }
 
-        private void WriteLog(string entry, bool Timestamp)
-        {
-            if (Timestamp)
-                Log.Text += DateTime.Now.ToString() + ": " + entry + NewLine;
-            else
-                Log.Text += "   " + entry + NewLine;
-
-            Log.SelectionStart = Log.TextLength;
-            Log.ScrollToCaret();
-            Log.Refresh();
-        }
-
         private void ChooseSourceFileBtn_Click(object sender, EventArgs e)
         {
             openFileDialog.ShowDialog();
             if (File.Exists(openFileDialog.FileName))
             {
-                WriteLog("CSV File: " + openFileDialog.FileName + NewLine, true);
-                this.Text = "Eng Stats Converter - " + Path.GetFileName(openFileDialog.FileName);
-                TableFinshed = false;
+                ChooseSourceFile(openFileDialog.FileName);
             }
-        }
-
-        private void SelectColumnsBtn_Click(object sender, EventArgs e)
-        {
-            if (File.Exists(openFileDialog.FileName))
-            {
-                DataSelectionForm _DataSelectionForm = new DataSelectionForm();
-
-                if (SelectionList.Count > 0)
-                    _DataSelectionForm.SetSelectionList(SelectionList);
-
-                _DataSelectionForm.SetFilename(openFileDialog.FileName);
-                _DataSelectionForm.ShowDialog();
-
-                SelectionList = _DataSelectionForm.GetSelectionList();
-
-                WriteLog("Selected Columns:", true);
-                foreach (string line in SelectionList)
-                    WriteLog(line, false);
-
-            }
-            else MessageBox.Show("No valid CSV File choosen");
-        }
-
-        private void StartConversionBtn_Click(object sender, EventArgs e)
-        {
-            if (File.Exists(openFileDialog.FileName))
-                if (SelectionList.Count > 0)
-                {
-                    WriteLog("Start Processing", true);
-                    try
-                    {
-                        Cursor.Current = Cursors.WaitCursor;
-                        listView1.BeginUpdate();
-                        listView1.ListViewItemSorter = null;
-                        listView1.Clear();
-                        Rows.Clear();
-
-                        String filename = openFileDialog.FileName;
-                        Stream stream = File.OpenRead(filename);
-                        if (filename.EndsWith("gz"))
-                        {
-                            stream = new GZipStream(stream, System.IO.Compression.CompressionMode.Decompress);
-                        }
-                        using (var reader = new StreamReader(stream))
-                        {
-                            var data = CsvParser.ParseHeadAndTail(reader, ',', '"');
-                            var header = data.Item1;
-                            var lines = data.Item2;
-
-                            SelectionIndexList.Clear();
-
-                            for (int i = 0; i < header.Count; i++)
-                                if (SelectionList.Contains(header[i]))
-                                    SelectionIndexList.Add(i);
-
-                            WriteLog("Colums to scan: " + header.Count.ToString(), true);
-
-                            listView1.View = View.Details;
-                            listView1.GridLines = true;
-                            listView1.FullRowSelect = true;
-
-                            string[] arr = new string[SelectionList.Count + 1];
-
-                            ListViewItem itm;
-                            headerLine = "";
-
-                            for (var i = 0; i < SelectionIndexList.Count; i++)
-                            {
-                                if (showValuesCB.Checked)
-                                    listView1.Columns.Add(header[SelectionIndexList[i]], 100);
-                                headerLine += "\"" + header[SelectionIndexList[i]] + "\",";
-                            }
-
-                            string tempLine;
-
-                            foreach (var line in lines)
-                            {
-                                tempLine = "";
-                                for (int i = 0; i < SelectionIndexList.Count; i++)
-                                    if (line.Count > SelectionIndexList[i])
-                                        if (!string.IsNullOrEmpty(line[SelectionIndexList[i]]))
-                                        {
-                                            arr[i] = line[SelectionIndexList[i]];
-                                            tempLine += "\"" + line[SelectionIndexList[i]] + "\",";
-                                        }
-                                        else
-                                        {
-                                            arr[i] = "";
-                                            tempLine += "\"" + "0" + "\",";
-                                        }
-                                    else
-                                        arr[i] = "";
-                                itm = new ListViewItem(arr);
-
-                                if (showValuesCB.Checked)
-                                    listView1.Items.Add(itm);
-                                Rows.Add(tempLine);
-                            }
-                        }
-                        listView1.EndUpdate(); ;
-                        WriteLog("Processing finished", true);
-                        TableFinshed = true;
-                        Log.ScrollToCaret();
-                    }
-                    finally
-                    {
-                        Cursor.Current = Cursors.Default;
-                    }
-                }
-                else MessageBox.Show("No Columns selected");
-            else MessageBox.Show("No valid CSV File choosen");
-        }
-
-        private void ExportNewCSVBtn_Click(object sender, EventArgs e)
-        {
-            if (Rows.Count > 0)
-            {
-                saveFileDialog.FileName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(openFileDialog.FileName)) + ".csv";
-                saveFileDialog.ShowDialog();
-                if (saveFileDialog.FileName != "")
-                {
-                    string[] AllLines = new string[Rows.Count + 1];
-                    int i = 0;
-
-                    AllLines[0] = headerLine.Remove(headerLine.Length - 1);
-
-                    foreach (string row in Rows)
-                    {
-                        i++;
-                        AllLines[i] = row.Remove(row.Length - 1);
-                    }
-                    System.IO.File.WriteAllLines(saveFileDialog.FileName, AllLines);
-
-                }
-            }
-            else
-                MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
-
         }
 
         private void ChartBtn_Click(object sender, EventArgs e)
@@ -286,7 +174,269 @@ namespace EngStatConverter
             else
                 MessageBox.Show("Please start conversion first.");
         }
+
+        private void SelectColumnsBtn_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(CSVFileName))
+            {
+                DataSelectionForm _DataSelectionForm = new DataSelectionForm();
+
+                if (SelectionList.Count > 0)
+                    _DataSelectionForm.SetSelectionList(SelectionList);
+
+                _DataSelectionForm.SetFilename(CSVFileName);
+                _DataSelectionForm.ShowDialog();
+
+                SelectionList = _DataSelectionForm.GetSelectionList();
+
+                WriteLog("Selected Columns:", true);
+                foreach (string line in SelectionList)
+                    WriteLog(line, false);
+
+            }
+            else MessageBox.Show("No valid CSV File choosen");
+        }
+
+        private void StartConversionBtn_Click(object sender, EventArgs e)
+        {
+            if (File.Exists(CSVFileName))
+                if (SelectionList.Count > 0)
+                {
+                    WriteLog("Start Processing", true);
+                    try
+                    {
+                        Cursor.Current = Cursors.WaitCursor;
+                        listView1.BeginUpdate();
+                        listView1.ListViewItemSorter = null;
+                        listView1.Clear();
+                        Rows.Clear();
+
+                        String filename = CSVFileName;
+                        Stream stream = File.OpenRead(filename);
+                        if (filename.EndsWith("gz"))
+                        {
+                            stream = new GZipStream(stream, System.IO.Compression.CompressionMode.Decompress);
+                        }
+                        using (var reader = new StreamReader(stream))
+                        {
+                            var data = CsvParser.ParseHeadAndTail(reader, ',', '"');
+                            var header = data.Item1;
+                            var lines = data.Item2;
+
+                            SelectionIndexList.Clear();
+
+                            for (int i = 0; i < header.Count; i++)
+                                if (SelectionList.Contains(header[i]))
+                                    SelectionIndexList.Add(i);
+
+                            WriteLog("Colums to scan: " + header.Count.ToString(), true);
+
+                            listView1.View = View.Details;
+                            listView1.GridLines = true;
+                            listView1.FullRowSelect = true;
+
+                            string[] arr = new string[SelectionList.Count + 1];
+
+                            ListViewItem itm;
+                            headerLine = "";
+
+                            for (var i = 0; i < SelectionIndexList.Count; i++)
+                            {
+                                listView1.Columns.Add(header[SelectionIndexList[i]], 100);
+                                headerLine += "\"" + header[SelectionIndexList[i]] + "\",";
+                            }
+
+                            string tempLine;
+
+                            foreach (var line in lines)
+                            {
+                                tempLine = "";
+                                for (int i = 0; i < SelectionIndexList.Count; i++)
+                                    if (line.Count > SelectionIndexList[i])
+                                        if (!string.IsNullOrEmpty(line[SelectionIndexList[i]]))
+                                        {
+                                            arr[i] = line[SelectionIndexList[i]];
+                                            tempLine += "\"" + line[SelectionIndexList[i]] + "\",";
+                                        }
+                                        else
+                                        {
+                                            arr[i] = "";
+                                            tempLine += "\"" + "0" + "\",";
+                                        }
+                                    else
+                                        arr[i] = "";
+                                itm = new ListViewItem(arr);
+
+                                listView1.Items.Add(itm);
+                                Rows.Add(tempLine);
+                            }
+                        }
+                        listView1.EndUpdate(); ;
+                        WriteLog("Processing finished", true);
+                        TableFinshed = true;
+                        SetButtonStatus();
+                        Log.ScrollToCaret();
+                    }
+                    finally
+                    {
+                        Cursor.Current = Cursors.Default;
+                    }
+                }
+                else MessageBox.Show("No Columns selected");
+            else MessageBox.Show("No valid CSV File choosen");
+        }
+
+        private void ExportNewCSVBtn_Click(object sender, EventArgs e)
+        {
+            if (Rows.Count > 0)
+            {
+                saveFileDialog.FileName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
+                saveFileDialog.ShowDialog();
+                if (saveFileDialog.FileName != "")
+                    ExportNewCSV(saveFileDialog.FileName);
+            }
+            else
+                MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
+        }
+
+        private void AboutBtn_Click(object sender, EventArgs e)
+        {
+            AboutFrm _AboutFrm = new AboutFrm();
+            _AboutFrm.ShowDialog();
+        }
+
+        private void ExcelBtn_Click(object sender, EventArgs e)
+        {
+            if (Rows.Count > 0)
+            {
+                if (SelectionList.Count == DefaultSelectionListCount)
+                {
+                    try
+                    {
+                        string TempCSVFileName;
+                        TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
+
+                        ExportNewCSV(TempCSVFileName);
+
+                        if (File.Exists(StartDir + "\\PerfAnalyseTemplate.xlsm"))
+                        {
+                            Process p = new Process();
+                            p.StartInfo.FileName = ExcelPath;
+                            p.StartInfo.Arguments = "\"" + StartDir + "\\PerfAnalyseTemplate.xlsm\" /e/" + TempCSVFileName;
+                            p.Start();
+                        }
+                        else MessageBox.Show("Excel Template not found");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Cannot generate the Performance Excel Chart: " + ex);
+                    }
+
+                }
+                else MessageBox.Show("Column Selection was changend from default");
+            }
+            else MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
+        }
+
+        private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+        }
+
+        private void MainForm_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.Text))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void MainForm_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            ChooseSourceFile(files[0]);
+        }
+
+        private void ExportNewCSV(string FileName)
+        {
+            if (FileName != "")
+            {
+                string[] AllLines = new string[Rows.Count + 1];
+                int i = 0;
+
+                AllLines[0] = headerLine.Remove(headerLine.Length - 1);
+
+                foreach (string row in Rows)
+                {
+                    i++;
+                    AllLines[i] = row.Remove(row.Length - 1);
+                }
+                System.IO.File.WriteAllLines(FileName, AllLines);
+
+            }
+        }
+
+        private void releaseObject(object obj)
+        {
+            try
+            {
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
+                obj = null;
+            }
+            catch (Exception ex)
+            {
+                obj = null;
+            }
+            finally
+            {
+                GC.Collect();
+            }
+        }
+
+        private void ChooseSourceFile(string Filename)
+        {
+            if (File.Exists(Filename))
+            {
+                WriteLog("CSV File: " + Filename + NewLine, true);
+                CSVFileName = Filename;
+                this.Text = "Eng Stats Converter - " + Path.GetFileName(Filename);
+                TableFinshed = false;
+                listView1.Clear();
+                Rows.Clear();
+                SetButtonStatus();
+            }
+        }
+
+        private void WriteLog(string entry, bool Timestamp)
+        {
+            if (Timestamp)
+                Log.Text += DateTime.Now.ToString() + ": " + entry + NewLine;
+            else
+                Log.Text += "   " + entry + NewLine;
+
+            Log.SelectionStart = Log.TextLength;
+            Log.ScrollToCaret();
+            Log.Refresh();
+        }
+
+        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
+
 
     public static class CsvParser
     {
@@ -403,5 +553,4 @@ namespace EngStatConverter
                 yield return record;
         }
     }
-
 }
