@@ -56,9 +56,13 @@
             this.ClientSize = new System.Drawing.Size(246, 80);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.progressBar1);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "ProgressDialog";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Converting ...";
+            this.TopMost = true;
             this.ResumeLayout(false);
 
         }
