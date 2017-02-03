@@ -17,11 +17,9 @@ namespace EngStatConverter
         string NewLine = System.Environment.NewLine;
 
         private List<string> SelectionList = new List<string>();
-        private List<int> SelectionIndexList = new List<int>();
         private List<string> ChartSelectionList = new List<string>();
         private List<string> Rows = new List<string>();
 
-        private string headerLine;
         private bool TableFinshed;
         private int ChartType = 0;
         private bool ChartStacked = false;
@@ -36,7 +34,6 @@ namespace EngStatConverter
         {
             InitializeComponent();
             SelectionList.Clear();
-            SelectionIndexList.Clear();
             Rows.Clear();
             ChartSelectionList.Clear();
 
@@ -318,10 +315,8 @@ namespace EngStatConverter
         {
             if (FileName != "")
             {
-                string[] AllLines = new string[Rows.Count + 1];
-                int i = 0;
-
-                AllLines[0] = headerLine.Remove(headerLine.Length - 1);
+                string[] AllLines = new string[Rows.Count];
+                int i = -1;
 
                 foreach (string row in Rows)
                 {
@@ -389,16 +384,11 @@ namespace EngStatConverter
         private void backgroundWorkerConversion_DoWork(object sender, System.ComponentModel.DoWorkEventArgs e)
         {
             BackgroundWorker worker = sender as BackgroundWorker;
+            List<int> SelectionIndexList = new List<int>();
+            List<string> SelectionHeaders = new List<string>();
+            List<List<string>> SelectionData = new List<List<String>>();
             
             WriteLog("Start Processing", true);
-            listView1.Invoke((MethodInvoker)delegate 
-            {
-                listView1.BeginUpdate();
-                listView1.ListViewItemSorter = null;
-                listView1.Clear();
-            });
-                        
-            Rows.Clear();
 
             String filename = CSVFileName;
             Stream stream = File.OpenRead(filename);
@@ -412,72 +402,51 @@ namespace EngStatConverter
                 var header = data.Item1;
                 var lines = data.Item2;
 
-                SelectionIndexList.Clear();
+                // this holds the CSV output
+                Rows.Clear();
 
+                // filter the available columns by the ones selected in the GUI and store the index
+                // and the column names for the actual list, also create the header line
+                string CSVLine = "";
                 for (int i = 0; i < header.Count; i++)
                     if (SelectionList.Contains(header[i]))
+                    {
                         SelectionIndexList.Add(i);
+                        SelectionHeaders.Add(header[i]);
+                        CSVLine += "\"" + header[i] + "\",";
+                    }
+                Rows.Add(CSVLine);
 
                 WriteLog("Colums to scan: " + header.Count.ToString(), true);
 
-                listView1.Invoke((MethodInvoker)delegate
-                {
-                    listView1.View = View.Details;
-                    listView1.GridLines = true;
-                    listView1.FullRowSelect = true;
-                });
-
-                string[] arr = new string[SelectionList.Count + 1];
-
-                ListViewItem itm;
-                headerLine = "";
-
-                for (var i = 0; i < SelectionIndexList.Count; i++)
-                {
-                    listView1.Invoke((MethodInvoker)delegate
-                    {
-                        listView1.Columns.Add(header[SelectionIndexList[i]], 100);
-                    });
-                    headerLine += "\"" + header[SelectionIndexList[i]] + "\",";
-                }
-
-                string tempLine;
+                // Now go through the lines and build both the CSV output and the content of
+                // the listview
                 int linecount = 0;
-
                 foreach (var line in lines)
                 {
                     if (backgroundWorkerConversion.CancellationPending)
                     {
-                        listView1.Invoke((MethodInvoker)delegate
+                        break;
+                    }
+                    List<String> SelectionRow = new List<string>();
+                    CSVLine = "";
+
+                    foreach (var Index in SelectionIndexList)
+                    {
+                        if (line.Count > Index && !string.IsNullOrEmpty(line[Index]))
                         {
-                            listView1.EndUpdate();
-                        });
-                        e.Cancel = true;
-                        return;
+                            SelectionRow.Add(line[Index]);
+                            CSVLine += "\"" + line[Index] + "\",";
+                        }
+                        else
+                        {
+                            SelectionRow.Add("0");
+                            CSVLine += "\"0\",";
+                        }
                     }
 
-                    tempLine = "";
-                    for (int i = 0; i < SelectionIndexList.Count; i++)
-                        if (line.Count > SelectionIndexList[i])
-                            if (!string.IsNullOrEmpty(line[SelectionIndexList[i]]))
-                            {
-                                arr[i] = line[SelectionIndexList[i]];
-                                tempLine += "\"" + line[SelectionIndexList[i]] + "\",";
-                            }
-                            else
-                            {
-                                arr[i] = "";
-                                tempLine += "\"" + "0" + "\",";
-                            }
-                        else
-                            arr[i] = "";
-                    itm = new ListViewItem(arr);
-
-                    listView1.Invoke((MethodInvoker)delegate
-                    {
-                        listView1.Items.Add(itm);
-                    });
-                    Rows.Add(tempLine);
+                    Rows.Add(CSVLine);
+                    SelectionData.Add(SelectionRow);
 
                     if ((linecount++ % 100) == 0)
                     {
@@ -486,13 +455,37 @@ namespace EngStatConverter
                     }
                 }
             }
-            listView1.Invoke((MethodInvoker)delegate
+            
+            if (backgroundWorkerConversion.CancellationPending)
             {
-                listView1.EndUpdate();
-            });
+                e.Cancel = true;
+            }
+            backgroundWorkerConversion_sendResults(SelectionHeaders, SelectionData);
             WriteLog("Processing finished", true);
             TableFinshed = true;
             SetButtonStatus();
+        }
+
+        private void backgroundWorkerConversion_sendResults(List<string> Headers, List<List<string>> Data)
+        {
+            listView1.Invoke((MethodInvoker)delegate
+            {
+                listView1.BeginUpdate();
+                listView1.ListViewItemSorter = null;
+                listView1.View = View.Details;
+                listView1.GridLines = true;
+                listView1.FullRowSelect = true;
+                listView1.Clear();
+                foreach (var Header in Headers)
+                {
+                    listView1.Columns.Add(Header, 100);
+                }
+                foreach (var Row in Data)
+                {
+                    listView1.Items.Add(new ListViewItem(Row.ToArray()));
+                }
+                listView1.EndUpdate();
+            });
         }
 
         private void backgroundWorkerConversion_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
