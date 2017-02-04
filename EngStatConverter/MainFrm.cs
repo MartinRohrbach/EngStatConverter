@@ -493,11 +493,6 @@ namespace EngStatConverter
 
         private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            if (e.ItemIndex >= ListViewData.Count)
-            {
-                string a;
-                a = "xyz";
-            }
             e.Item = new ListViewItem(ListViewData[e.ItemIndex].ToArray());
         }
     }
