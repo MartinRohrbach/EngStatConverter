@@ -62,6 +62,7 @@
             this.listView1.AllowDrop = true;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
@@ -69,7 +70,9 @@
             this.listView1.Size = new System.Drawing.Size(694, 308);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.List;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.VirtualMode = true;
+            this.listView1.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.listView1_RetrieveVirtualItem);
             this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.listView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             // 
