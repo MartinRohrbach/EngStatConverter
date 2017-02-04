@@ -266,9 +266,11 @@ namespace EngStatConverter
 
                         if (File.Exists(StartDir + "\\PerfAnalyseTemplate.xlsm"))
                         {
+                            // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
+                            TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
                             Process p = new Process();
                             p.StartInfo.FileName = ExcelPath;
-                            p.StartInfo.Arguments = "\"" + StartDir + "\\PerfAnalyseTemplate.xlsm\" /e/\"" + TempCSVFileName + "\"";
+                            p.StartInfo.Arguments = "\"" + StartDir + "\\PerfAnalyseTemplate.xlsm\" /e/" + TempCSVFileName;
                             p.Start();
                         }
                         else MessageBox.Show("Excel Template not found");
