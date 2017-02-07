@@ -200,11 +200,22 @@ namespace EngStatConverter
                 {
                     WriteLog("No change in columns.", false);
                 } else {
+                    if (newSelectionList.Count > 100)
+                    {
+                        MessageBox.Show("The selection contains more than 100 columns, only the first 100 will be display inline. A CSV export will however contain all columns.");
+                    }
+
                     SelectionList = newSelectionList;
 
                     WriteLog("Selected Columns:", true);
+
+                    var lines = new StringBuilder();
                     foreach (string line in SelectionList)
-                        WriteLog(line, false);
+                    {
+                        lines.Append(line);
+                        lines.Append(Environment.NewLine);
+                    }
+                    WriteLog(lines.ToString(), false);
 
                     StartConversionBtn_Click(sender, e);
                 }
@@ -316,13 +327,13 @@ namespace EngStatConverter
         {
             if (FileName != "")
             {
-                List<String> CSVData = new List<String>();
-                CSVData.Add("\"" + string.Join("\",\"", ListViewHeader) + "\"");
+                System.IO.StreamWriter Stream = new System.IO.StreamWriter(FileName);
+                Stream.WriteLine("\"" + string.Join("\",\"", ListViewHeader) + "\"");
                 foreach (List<string> Row in ListViewData)
                 {
-                    CSVData.Add("\"" + string.Join("\",\"", Row) + "\"");
+                    Stream.WriteLine("\"" + string.Join("\",\"", Row) + "\"");
                 }
-                System.IO.File.WriteAllLines(FileName, CSVData);
+                Stream.Close();
             }
         }
 
@@ -460,7 +471,7 @@ namespace EngStatConverter
             }
             listView1.Invoke((MethodInvoker)delegate
             {
-                foreach (var Header in ListViewHeader)
+                foreach (var Header in ListViewHeader.GetRange(0,ListViewHeader.Count > 100 ? 100 : ListViewHeader.Count))
                 {
                     listView1.Columns.Add(Header, 100);
                 }
