@@ -51,7 +51,8 @@ namespace EngStatConverter
                 {
                     NewSeries(chart, ChartSelectionList[i], ChartValue[0], ChartValue[i]);
                 }
-                AxisMaxTb.Text = chart.ChartAreas[0].AxisY.Maximum.ToString();
+                LeftAxisMaxTb.Text = "";
+                RightAxisMaxTb.Text = "";
 
                 ChartMin = DateTime.ParseExact(ChartValue[0][0], "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
                 ChartMax = DateTime.ParseExact(ChartValue[0][ChartValue[0].Count - 1], "yyyy/MM/dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
@@ -68,6 +69,11 @@ namespace EngStatConverter
             chart.Series.Add(name);
             int Index = chart.Series.Count - 1;
             chart.Series[Index].XValueType = ChartValueType.DateTime;
+
+            if (name.StartsWith("-"))
+                chart.Series[Index].YAxisType = AxisType.Secondary;
+            else
+                chart.Series[Index].YAxisType = AxisType.Primary;
 
             switch (ChartType)
             {
@@ -145,27 +151,21 @@ namespace EngStatConverter
 
         private void ApplyBtn_Click(object sender, EventArgs e)
         {
-            chart.ChartAreas[0].AxisY.Maximum = Int32.Parse(AxisMaxTb.Text);          
+            int max;
+            if (int.TryParse(LeftAxisMaxTb.Text, out max))
+                chart.ChartAreas[0].AxisY.Maximum = max;
+            else
+                chart.ChartAreas[0].AxisY.Maximum = Double.NaN;
+
+            if (int.TryParse(RightAxisMaxTb.Text, out max))
+                chart.ChartAreas[0].AxisY2.Maximum = max;
+            else
+                chart.ChartAreas[0].AxisY2.Maximum = Double.NaN; 
         }
 
         private void chart_MouseClick(object sender, MouseEventArgs e)
         {
-            //switch (e.Button)
-            //{
-            //    case MouseButtons.Right:
-            //    {
-            //        MouseClickPositionX = e.X;
-            //        MouseClickPositionY = e.Y;
-            //        ChartContextMenu.Show(this, new Point(e.X, e.Y));//places the menu at the pointer position
-            //    }
-            //    break;
-            //    case MouseButtons.Left:
-            //    {
-            //        Point chartLocationOnForm = chart.FindForm().PointToClient(chart.Parent.PointToScreen(chart.Location));
-            //        MessageBox.Show(DateTime.FromOADate(chart.ChartAreas[0].AxisX.PixelPositionToValue(e.X)).ToString());
-            //    }
-            //        break;
-            //}
+            
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

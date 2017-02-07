@@ -40,10 +40,12 @@
             this.CancelBtn = new System.Windows.Forms.Button();
             this.SaveImageBtn = new System.Windows.Forms.Button();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.AxisMaxTb = new System.Windows.Forms.TextBox();
+            this.LeftAxisMaxTb = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.ApplyBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.RightAxisMaxTb = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.chart)).BeginInit();
             this.ChartContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -67,7 +69,7 @@
             series1.Name = "Series1";
             series1.YValuesPerPoint = 6;
             this.chart.Series.Add(series1);
-            this.chart.Size = new System.Drawing.Size(680, 386);
+            this.chart.Size = new System.Drawing.Size(680, 414);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart2";
             this.chart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chart_MouseClick);
@@ -107,7 +109,7 @@
             // CancelBtn
             // 
             this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.CancelBtn.Location = new System.Drawing.Point(12, 426);
+            this.CancelBtn.Location = new System.Drawing.Point(12, 456);
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 1;
@@ -118,7 +120,7 @@
             // SaveImageBtn
             // 
             this.SaveImageBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveImageBtn.Location = new System.Drawing.Point(617, 426);
+            this.SaveImageBtn.Location = new System.Drawing.Point(617, 456);
             this.SaveImageBtn.Name = "SaveImageBtn";
             this.SaveImageBtn.Size = new System.Drawing.Size(75, 23);
             this.SaveImageBtn.TabIndex = 2;
@@ -132,30 +134,30 @@
             this.saveFileDialog.Filter = "png|*.png";
             this.saveFileDialog.Title = "Export Image Name";
             // 
-            // AxisMaxTb
+            // LeftAxisMaxTb
             // 
-            this.AxisMaxTb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.AxisMaxTb.Location = new System.Drawing.Point(206, 426);
-            this.AxisMaxTb.MaxLength = 6;
-            this.AxisMaxTb.Name = "AxisMaxTb";
-            this.AxisMaxTb.Size = new System.Drawing.Size(79, 20);
-            this.AxisMaxTb.TabIndex = 3;
-            this.AxisMaxTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AxisMaxTb_Keypress);
+            this.LeftAxisMaxTb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.LeftAxisMaxTb.Location = new System.Drawing.Point(237, 456);
+            this.LeftAxisMaxTb.MaxLength = 7;
+            this.LeftAxisMaxTb.Name = "LeftAxisMaxTb";
+            this.LeftAxisMaxTb.Size = new System.Drawing.Size(54, 20);
+            this.LeftAxisMaxTb.TabIndex = 3;
+            this.LeftAxisMaxTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AxisMaxTb_Keypress);
             // 
             // label2
             // 
             this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(100, 429);
+            this.label2.Location = new System.Drawing.Point(136, 460);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(103, 13);
+            this.label2.Size = new System.Drawing.Size(101, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Axis Maximum Value";
+            this.label2.Text = "Right Axis Maximum";
             // 
             // ApplyBtn
             // 
             this.ApplyBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.ApplyBtn.Location = new System.Drawing.Point(294, 423);
+            this.ApplyBtn.Location = new System.Drawing.Point(460, 456);
             this.ApplyBtn.Name = "ApplyBtn";
             this.ApplyBtn.Size = new System.Drawing.Size(42, 23);
             this.ApplyBtn.TabIndex = 5;
@@ -167,21 +169,42 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 401);
+            this.label1.Location = new System.Drawing.Point(12, 429);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(225, 13);
             this.label1.TabIndex = 6;
             this.label1.Text = "Use Right Click to specify Start- and End Time";
             // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(296, 460);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(94, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Left Axis Maximum";
+            // 
+            // RightAxisMaxTb
+            // 
+            this.RightAxisMaxTb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.RightAxisMaxTb.Location = new System.Drawing.Point(393, 456);
+            this.RightAxisMaxTb.MaxLength = 7;
+            this.RightAxisMaxTb.Name = "RightAxisMaxTb";
+            this.RightAxisMaxTb.Size = new System.Drawing.Size(54, 20);
+            this.RightAxisMaxTb.TabIndex = 7;
+            // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 461);
+            this.ClientSize = new System.Drawing.Size(704, 491);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.RightAxisMaxTb);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.ApplyBtn);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.AxisMaxTb);
+            this.Controls.Add(this.LeftAxisMaxTb);
             this.Controls.Add(this.SaveImageBtn);
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.chart);
@@ -201,7 +224,7 @@
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.Button SaveImageBtn;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
-        private System.Windows.Forms.TextBox AxisMaxTb;
+        private System.Windows.Forms.TextBox LeftAxisMaxTb;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button ApplyBtn;
         private System.Windows.Forms.ContextMenuStrip ChartContextMenu;
@@ -209,5 +232,7 @@
         private System.Windows.Forms.ToolStripMenuItem SetEndTimeCMI;
         private System.Windows.Forms.ToolStripMenuItem ResetTimeFilterCMI;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox RightAxisMaxTb;
     }
 }

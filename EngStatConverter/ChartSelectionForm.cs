@@ -64,10 +64,13 @@ namespace EngStatConverter
         private void CreateChartBtn_Click(object sender, EventArgs e)
         {         
             ChartSelectionList.Clear();
-            for (int i = 0; i < ChartSelectionChLb.Items.Count; i++)
+            ChartSelectionList.Add("Timestamp");
+            for (int i = 0; i < ChartSelectionChLbAxis1.Items.Count; i++)
             {
-                if (ChartSelectionChLb.GetItemChecked(i))
-                    ChartSelectionList.Add(ChartSelectionChLb.Items[i].ToString());
+                if (ChartSelectionChLbAxis1.GetItemChecked(i))
+                    ChartSelectionList.Add(ChartSelectionChLbAxis1.Items[i].ToString());
+                if (ChartSelectionChLbAxis2.GetItemChecked(i))
+                    ChartSelectionList.Add("-" + ChartSelectionChLbAxis2.Items[i].ToString());
             }
             Closing_Action = 1;
             Close();
@@ -91,11 +94,20 @@ namespace EngStatConverter
 
             foreach (string SelectionItem in SelectionList)
             {
-                ChartSelectionChLb.Items.Add(SelectionItem);
-                if (ChartSelectionList.Contains(SelectionItem) | SelectionItem=="Timestamp")
-                    ChartSelectionChLb.SetItemChecked(ChartSelectionChLb.Items.Count - 1, true);
-                else
-                    ChartSelectionChLb.SetItemChecked(ChartSelectionChLb.Items.Count - 1, false);
+                if (SelectionItem != "Timestamp")
+                {
+                    ChartSelectionChLbAxis1.Items.Add(SelectionItem);
+                    ChartSelectionChLbAxis2.Items.Add(SelectionItem);
+                    if (ChartSelectionList.Contains(SelectionItem) | SelectionItem == "Timestamp")
+                        ChartSelectionChLbAxis1.SetItemChecked(ChartSelectionChLbAxis1.Items.Count - 1, true);
+                    else
+                        ChartSelectionChLbAxis1.SetItemChecked(ChartSelectionChLbAxis1.Items.Count - 1, false);
+                    if (ChartSelectionList.Contains("-" + SelectionItem))
+                        ChartSelectionChLbAxis2.SetItemChecked(ChartSelectionChLbAxis2.Items.Count - 1, true);
+                    else
+                        ChartSelectionChLbAxis2.SetItemChecked(ChartSelectionChLbAxis2.Items.Count - 1, false);
+                }
+
             }
         }
 
@@ -110,6 +122,29 @@ namespace EngStatConverter
 
             ChartStacked = StackedCb.Checked;
             
+        }
+
+        private void ChartSelectionChLbAxis1_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (e.NewValue == CheckState.Checked)
+                ChartSelectionChLbAxis2.SetItemChecked(e.Index, false);
+        }
+
+        private void ChartSelectionChLbAxis2_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (e.NewValue == CheckState.Checked)
+                ChartSelectionChLbAxis1.SetItemChecked(e.Index, false);
+        }
+
+        private void ClearSelectionBtn_Click(object sender, EventArgs e)
+        {
+            for (int i = 1; i < ChartSelectionChLbAxis1.Items.Count; i++)
+            {
+                ChartSelectionChLbAxis1.SetItemChecked(i, false);
+                ChartSelectionChLbAxis2.SetItemChecked(i, false);
+            }
+
+            ChartSelectionChLbAxis1.SetItemChecked(0, true);
         }
     }
 }

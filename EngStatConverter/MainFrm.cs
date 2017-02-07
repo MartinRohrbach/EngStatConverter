@@ -152,7 +152,7 @@ namespace EngStatConverter
                         int ColIndex = 0;
                         foreach (ColumnHeader header in listView1.Columns)
                         {
-                            if (ChartSelectionList.Contains(header.Text))
+                            if (ChartSelectionList.Contains(header.Text) | ChartSelectionList.Contains("-" + header.Text))
                             {
                                 ChartValue[ColIndex] = new List<string>();
 
