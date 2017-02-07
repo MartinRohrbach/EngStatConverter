@@ -249,7 +249,7 @@ namespace EngStatConverter
 
         private void SelectAllFsBtn_Click(object sender, EventArgs e)
         {
-            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3})?(_(?!_daily|prj|bck))? (Read|Write) (KiB[^ %])");
+            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3}|_saparch|_archive)?(_(?!_daily|prj|bck))? (Read|Write) (KiB[^ %])");
         }
 
         private void charCountTrb_ValueChanged(object sender, EventArgs e)
@@ -265,7 +265,7 @@ namespace EngStatConverter
 
         private void SelectAllFsIOPsBtn_Click(object sender, EventArgs e)
         {
-            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3})?(_(?!_daily|prj|bck))? (Read|Write) (Ops[^ %])");
+            SearchTreeView(true, "MetaVol [a-z0-9]+(_[a-z0-9]{3}|_saparch|_archive)?(_(?!_daily|prj|bck))? (Read|Write) (Ops[^ %])");
         }
 
         private void SearchBtn_Click(object sender, EventArgs e)

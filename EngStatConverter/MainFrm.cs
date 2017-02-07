@@ -483,16 +483,6 @@ namespace EngStatConverter
             if (progressDialog != null) progressDialog.ShowProgress(e.ProgressPercentage);
         }
 
-        private void splitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void splitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void listView1_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
             e.Item = new ListViewItem(ListViewData[e.ItemIndex].ToArray());

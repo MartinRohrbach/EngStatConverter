@@ -60,7 +60,7 @@
             this.treeView1.HotTracking = true;
             this.treeView1.Location = new System.Drawing.Point(18, 61);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(387, 268);
+            this.treeView1.Size = new System.Drawing.Size(402, 276);
             this.treeView1.TabIndex = 1;
             this.treeView1.AfterCheck += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterCheck);
             // 
@@ -68,7 +68,7 @@
             // 
             this.OkBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OkBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkBtn.Location = new System.Drawing.Point(426, 306);
+            this.OkBtn.Location = new System.Drawing.Point(441, 314);
             this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(61, 23);
             this.OkBtn.TabIndex = 1;
@@ -80,7 +80,7 @@
             // 
             this.CancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(505, 306);
+            this.CancelBtn.Location = new System.Drawing.Point(520, 314);
             this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(64, 23);
             this.CancelBtn.TabIndex = 2;
@@ -91,7 +91,7 @@
             // SaveToFileBtn
             // 
             this.SaveToFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveToFileBtn.Location = new System.Drawing.Point(426, 188);
+            this.SaveToFileBtn.Location = new System.Drawing.Point(441, 188);
             this.SaveToFileBtn.Margin = new System.Windows.Forms.Padding(0);
             this.SaveToFileBtn.Name = "SaveToFileBtn";
             this.SaveToFileBtn.Size = new System.Drawing.Size(143, 21);
@@ -107,7 +107,7 @@
             // LoadFromFileBtn
             // 
             this.LoadFromFileBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LoadFromFileBtn.Location = new System.Drawing.Point(426, 164);
+            this.LoadFromFileBtn.Location = new System.Drawing.Point(441, 164);
             this.LoadFromFileBtn.Margin = new System.Windows.Forms.Padding(0);
             this.LoadFromFileBtn.Name = "LoadFromFileBtn";
             this.LoadFromFileBtn.Size = new System.Drawing.Size(143, 21);
@@ -118,9 +118,11 @@
             // 
             // SearchTb
             // 
+            this.SearchTb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.SearchTb.Location = new System.Drawing.Point(82, 11);
             this.SearchTb.Name = "SearchTb";
-            this.SearchTb.Size = new System.Drawing.Size(323, 20);
+            this.SearchTb.Size = new System.Drawing.Size(338, 20);
             this.SearchTb.TabIndex = 4;
             // 
             // SearchBtn
@@ -147,7 +149,8 @@
             // 
             // charCountTrb
             // 
-            this.charCountTrb.Location = new System.Drawing.Point(426, 10);
+            this.charCountTrb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.charCountTrb.Location = new System.Drawing.Point(441, 10);
             this.charCountTrb.Maximum = 15;
             this.charCountTrb.Minimum = 3;
             this.charCountTrb.Name = "charCountTrb";
@@ -158,8 +161,9 @@
             // 
             // GroupingLb
             // 
+            this.GroupingLb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GroupingLb.AutoSize = true;
-            this.GroupingLb.Location = new System.Drawing.Point(453, 38);
+            this.GroupingLb.Location = new System.Drawing.Point(450, 38);
             this.GroupingLb.Name = "GroupingLb";
             this.GroupingLb.Size = new System.Drawing.Size(81, 13);
             this.GroupingLb.TabIndex = 8;
@@ -169,7 +173,7 @@
             // SelectAllFsKiBBtn
             // 
             this.SelectAllFsKiBBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectAllFsKiBBtn.Location = new System.Drawing.Point(426, 244);
+            this.SelectAllFsKiBBtn.Location = new System.Drawing.Point(441, 244);
             this.SelectAllFsKiBBtn.Margin = new System.Windows.Forms.Padding(0);
             this.SelectAllFsKiBBtn.Name = "SelectAllFsKiBBtn";
             this.SelectAllFsKiBBtn.Size = new System.Drawing.Size(143, 21);
@@ -181,7 +185,7 @@
             // SelectAllFsIOPsBtn
             // 
             this.SelectAllFsIOPsBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SelectAllFsIOPsBtn.Location = new System.Drawing.Point(426, 268);
+            this.SelectAllFsIOPsBtn.Location = new System.Drawing.Point(441, 268);
             this.SelectAllFsIOPsBtn.Margin = new System.Windows.Forms.Padding(0);
             this.SelectAllFsIOPsBtn.Name = "SelectAllFsIOPsBtn";
             this.SelectAllFsIOPsBtn.Size = new System.Drawing.Size(142, 21);
@@ -214,7 +218,7 @@
             // 
             this.TemplateSelBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.TemplateSelBox.FormattingEnabled = true;
-            this.TemplateSelBox.Location = new System.Drawing.Point(426, 83);
+            this.TemplateSelBox.Location = new System.Drawing.Point(441, 83);
             this.TemplateSelBox.Name = "TemplateSelBox";
             this.TemplateSelBox.Size = new System.Drawing.Size(143, 21);
             this.TemplateSelBox.TabIndex = 13;
@@ -224,7 +228,7 @@
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(423, 67);
+            this.label1.Location = new System.Drawing.Point(438, 67);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 13);
             this.label1.TabIndex = 14;
@@ -243,7 +247,7 @@
             // 
             this.ApplyTemplateBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ApplyTemplateBtn.Enabled = false;
-            this.ApplyTemplateBtn.Location = new System.Drawing.Point(426, 107);
+            this.ApplyTemplateBtn.Location = new System.Drawing.Point(441, 107);
             this.ApplyTemplateBtn.Margin = new System.Windows.Forms.Padding(0);
             this.ApplyTemplateBtn.Name = "ApplyTemplateBtn";
             this.ApplyTemplateBtn.Size = new System.Drawing.Size(143, 21);
@@ -258,7 +262,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelBtn;
-            this.ClientSize = new System.Drawing.Size(584, 341);
+            this.ClientSize = new System.Drawing.Size(599, 372);
             this.ControlBox = false;
             this.Controls.Add(this.ApplyTemplateBtn);
             this.Controls.Add(this.label2);
