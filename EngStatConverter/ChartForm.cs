@@ -66,14 +66,21 @@ namespace EngStatConverter
 
         private void NewSeries(Chart chart, string name, List<string> Timestamps, List<string> ValuePoints)
         {
+            if (name.StartsWith("-"))
+                name = name.Remove(0, 1) + " (right axis)";
+            else
+                name = name + " (left axis)";
+
             chart.Series.Add(name);
             int Index = chart.Series.Count - 1;
             chart.Series[Index].XValueType = ChartValueType.DateTime;
 
-            if (name.StartsWith("-"))
+            if (name.EndsWith("(right axis)"))
                 chart.Series[Index].YAxisType = AxisType.Secondary;
             else
                 chart.Series[Index].YAxisType = AxisType.Primary;
+
+
 
             switch (ChartType)
             {
@@ -161,11 +168,6 @@ namespace EngStatConverter
                 chart.ChartAreas[0].AxisY2.Maximum = max;
             else
                 chart.ChartAreas[0].AxisY2.Maximum = Double.NaN; 
-        }
-
-        private void chart_MouseClick(object sender, MouseEventArgs e)
-        {
-            
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)

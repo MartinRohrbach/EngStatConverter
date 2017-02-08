@@ -72,7 +72,6 @@
             this.chart.Size = new System.Drawing.Size(680, 414);
             this.chart.TabIndex = 0;
             this.chart.Text = "chart2";
-            this.chart.MouseClick += new System.Windows.Forms.MouseEventHandler(this.chart_MouseClick);
             // 
             // ChartContextMenu
             // 
@@ -137,7 +136,7 @@
             // LeftAxisMaxTb
             // 
             this.LeftAxisMaxTb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.LeftAxisMaxTb.Location = new System.Drawing.Point(237, 456);
+            this.LeftAxisMaxTb.Location = new System.Drawing.Point(234, 456);
             this.LeftAxisMaxTb.MaxLength = 7;
             this.LeftAxisMaxTb.Name = "LeftAxisMaxTb";
             this.LeftAxisMaxTb.Size = new System.Drawing.Size(54, 20);
@@ -150,9 +149,10 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(136, 460);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(101, 13);
+            this.label2.Size = new System.Drawing.Size(94, 13);
             this.label2.TabIndex = 4;
-            this.label2.Text = "Right Axis Maximum";
+            this.label2.Text = "Left Axis Maximum";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // ApplyBtn
             // 
@@ -181,14 +181,15 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(296, 460);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(94, 13);
+            this.label3.Size = new System.Drawing.Size(101, 13);
             this.label3.TabIndex = 8;
-            this.label3.Text = "Left Axis Maximum";
+            this.label3.Text = "Right Axis Maximum";
+            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // RightAxisMaxTb
             // 
             this.RightAxisMaxTb.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.RightAxisMaxTb.Location = new System.Drawing.Point(393, 456);
+            this.RightAxisMaxTb.Location = new System.Drawing.Point(399, 456);
             this.RightAxisMaxTb.MaxLength = 7;
             this.RightAxisMaxTb.Name = "RightAxisMaxTb";
             this.RightAxisMaxTb.Size = new System.Drawing.Size(54, 20);

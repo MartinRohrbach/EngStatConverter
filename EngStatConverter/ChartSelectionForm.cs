@@ -138,13 +138,11 @@ namespace EngStatConverter
 
         private void ClearSelectionBtn_Click(object sender, EventArgs e)
         {
-            for (int i = 1; i < ChartSelectionChLbAxis1.Items.Count; i++)
+            for (int i = 0; i < ChartSelectionChLbAxis1.Items.Count; i++)
             {
                 ChartSelectionChLbAxis1.SetItemChecked(i, false);
                 ChartSelectionChLbAxis2.SetItemChecked(i, false);
             }
-
-            ChartSelectionChLbAxis1.SetItemChecked(0, true);
         }
     }
 }
