@@ -34,7 +34,7 @@ namespace EngStatConverter
             string[] args = Environment.GetCommandLineArgs();
             StartDir = Path.GetDirectoryName(args[0]);
 
-            string[] TemplateFiles = Directory.GetFiles(StartDir,"*.esc");
+            string[] TemplateFiles = Directory.GetFiles(StartDir+ "\\SelectionTemplates" , "*.esc");
 
             TemplateSelBox.Items.Clear();
             foreach (string Template in TemplateFiles)
@@ -327,8 +327,7 @@ namespace EngStatConverter
 
         private void ApplyTemplateBtn_Click(object sender, EventArgs e)
         {
-            // MessageBox.Show(StartDir + TemplateSelBox.SelectedItem.ToString() + ".esc");
-            LoadTemplate(StartDir + "\\" + TemplateSelBox.SelectedItem.ToString() + ".esc");
+            LoadTemplate(StartDir + "\\SelectionTemplates\\" + TemplateSelBox.SelectedItem.ToString() + ".esc");
         }
 
         private void LoadTemplate(string Filename)
