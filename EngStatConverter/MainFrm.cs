@@ -53,10 +53,10 @@ namespace EngStatConverter
                 else
                     MessageBox.Show("File not found");
             } 
-            if (File.Exists(StartDir + "\\Default.esc"))
+            if (File.Exists(StartDir + "\\SelectionTemplates\\Default.esc"))
             {
                 WriteLog("Selected Columns:", true);
-                string[] temp = System.IO.File.ReadAllLines(StartDir + "\\Default.esc");
+                string[] temp = System.IO.File.ReadAllLines(StartDir + "\\SelectionTemplates\\Default.esc");
                 foreach (string line in temp)
                 {
                     SelectionList.Add(line);
@@ -65,7 +65,7 @@ namespace EngStatConverter
                 DefaultSelectionListCount = SelectionList.Count;
             } else DefaultSelectionListCount = -1;
 
-            if (File.Exists(StartDir + "\\PerfAnalyseTemplate.xlsm"))
+            if (File.Exists(StartDir + "\\ExcelTemplates\\PerfAnalyseTemplate.xlsm"))
                 ExcelFound = true;
             else
                 ExcelFound = false;
@@ -100,7 +100,9 @@ namespace EngStatConverter
                 SetButtonStatusDelegate invoker = new SetButtonStatusDelegate(SetButtonStatus);
                 this.Invoke(invoker, new object[] {});
             } else { 
+                PerfExcelBtn.Enabled = (ExcelFound) & (ListViewData.Count > 0);
                 ExcelBtn.Enabled = (ExcelFound) & (ListViewData.Count > 0);
+                TTExcelBtn.Enabled = (ExcelFound) & (ListViewData.Count > 0);
                 StartConversionBtn.Enabled = (File.Exists(CSVFileName)) & (SelectionList.Count > 0);
                 ExportNewCSVBtn.Enabled = (ListViewData.Count > 0);
                 SelectColumnsBtn.Enabled = (File.Exists(CSVFileName));
@@ -261,40 +263,6 @@ namespace EngStatConverter
         {
             AboutFrm _AboutFrm = new AboutFrm();
             _AboutFrm.ShowDialog();
-        }
-
-        private void ExcelBtn_Click(object sender, EventArgs e)
-        {
-            if (ListViewData.Count > 0)
-            {
-                if (SelectionList.Count == DefaultSelectionListCount)
-                {
-                    try
-                    {
-                        string TempCSVFileName;
-                        TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
-                        ExportNewCSV(TempCSVFileName);
-
-                        if (File.Exists(StartDir + "\\PerfAnalyseTemplate.xlsm"))
-                        {
-                            // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
-                            TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
-                            Process p = new Process();
-                            p.StartInfo.FileName = ExcelPath;
-                            p.StartInfo.Arguments = "\"" + StartDir + "\\PerfAnalyseTemplate.xlsm\" /e/" + TempCSVFileName;
-                            p.Start();
-                        }
-                        else MessageBox.Show("Excel Template not found");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Cannot generate the Performance Excel Chart: " + ex);
-                    }
-
-                }
-                else MessageBox.Show("Column Selection was changed from default");
-            }
-            else MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -498,6 +466,100 @@ namespace EngStatConverter
         {
             e.Item = new ListViewItem(ListViewData[e.ItemIndex].ToArray());
         }
+
+        private void PerfExcelBtn_Click(object sender, EventArgs e)
+        {
+            if (ListViewData.Count > 0)
+            {
+                if (SelectionList.Count == DefaultSelectionListCount)
+                {
+                    try
+                    {
+                        string TempCSVFileName;
+                        TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
+                        ExportNewCSV(TempCSVFileName);
+
+                        if (File.Exists(StartDir + "\\ExcelTemplates\\PerfAnalyseTemplate.xlsm"))
+                        {
+                            // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
+                            TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
+                            Process p = new Process();
+                            p.StartInfo.FileName = ExcelPath;
+                            p.StartInfo.Arguments = "\"" + StartDir + "\\ExcelTemplates\\PerfAnalyseTemplate.xlsm\" /e/" + TempCSVFileName;
+                            p.Start();
+                        }
+                        else MessageBox.Show("Excel Template not found");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Cannot generate the Performance Excel Chart: " + ex);
+                    }
+
+                }
+                else MessageBox.Show("Column Selection was changed from default");
+            }
+            else MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
+        }
+
+        private void ExcelBtn_Click(object sender, EventArgs e)
+        {
+            if (ListViewData.Count > 0)
+            {
+                try
+                {
+                    string TempCSVFileName;
+                    TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
+                    ExportNewCSV(TempCSVFileName);
+
+                    if (File.Exists(StartDir + "\\ExcelTemplates\\Template.xlsm"))
+                    {
+                        // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
+                        TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
+                        Process p = new Process();
+                        p.StartInfo.FileName = ExcelPath;
+                        p.StartInfo.Arguments = "\"" + StartDir + "\\ExcelTemplates\\Template.xlsm\" /e/" + TempCSVFileName;
+                        p.Start();
+                    }
+                    else MessageBox.Show("Excel Template not found");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Cannot generate the Performance Excel Chart: " + ex);
+                }
+            }
+            else MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
+
+        }
+
+        private void TTExcelBtn_Click(object sender, EventArgs e)
+        {
+            if (ListViewData.Count > 0)
+            {
+                try
+                {
+                    string TempCSVFileName;
+                    TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
+                    ExportNewCSV(TempCSVFileName);
+
+                    if (File.Exists(StartDir + "\\ExcelTemplates\\TTTemplate.xlsm"))
+                    {
+                        // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
+                        TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
+                        Process p = new Process();
+                        p.StartInfo.FileName = ExcelPath;
+                        p.StartInfo.Arguments = "\"" + StartDir + "\\ExcelTemplates\\TTTemplate.xlsm\" /e/" + TempCSVFileName;
+                        p.Start();
+                    }
+                    else MessageBox.Show("Excel Template not found");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Cannot generate the Performance Excel Chart: " + ex);
+                }
+            }
+            else MessageBox.Show("Click 'Select Columns' and 'Start Conversion' first");
+        }
+
     }
 
 
