@@ -34,12 +34,16 @@ namespace EngStatConverter
             string[] args = Environment.GetCommandLineArgs();
             StartDir = Path.GetDirectoryName(args[0]);
 
-            string[] TemplateFiles = Directory.GetFiles(StartDir+ "\\SelectionTemplates" , "*.esc");
+            string[] TemplateFiles = { };
+            try
+            {
+                TemplateFiles = Directory.GetFiles(StartDir + "\\SelectionTemplates", "*.esc");
+            }
+            catch (DirectoryNotFoundException dirEx) { }
 
             TemplateSelBox.Items.Clear();
             foreach (string Template in TemplateFiles)
                 TemplateSelBox.Items.Add(Path.GetFileNameWithoutExtension(Template));
-
 
             BuildTreeView();
         }

@@ -211,6 +211,7 @@
             this.Controls.Add(this.chart);
             this.MinimumSize = new System.Drawing.Size(720, 500);
             this.Name = "ChartForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Load += new System.EventHandler(this.ChartForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart)).EndInit();
             this.ChartContextMenu.ResumeLayout(false);

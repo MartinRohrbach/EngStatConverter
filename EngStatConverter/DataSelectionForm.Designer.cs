@@ -273,7 +273,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CancelBtn;
-            this.ClientSize = new System.Drawing.Size(584, 341);
+            this.ClientSize = new System.Drawing.Size(584, 364);
             this.ControlBox = false;
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ApplyTemplateBtn);
@@ -296,6 +296,7 @@
             this.Controls.Add(this.treeView1);
             this.MinimumSize = new System.Drawing.Size(600, 380);
             this.Name = "DataSelectionForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Data Selection";
             this.Load += new System.EventHandler(this.DataSelection_Load);
             ((System.ComponentModel.ISupportInitialize)(this.charCountTrb)).EndInit();

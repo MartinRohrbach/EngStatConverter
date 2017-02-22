@@ -153,6 +153,7 @@
             this.Name = "AboutFrm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "About Eng Stat Converter";
             this.Load += new System.EventHandler(this.AboutFrm_Load);
             this.ResumeLayout(false);

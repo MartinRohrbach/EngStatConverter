@@ -117,8 +117,7 @@ namespace EngStatConverter
 
         private void ChooseSourceFileBtn_Click(object sender, EventArgs e)
         {
-            openFileDialog.ShowDialog();
-            if (File.Exists(openFileDialog.FileName))
+            if (openFileDialog.ShowDialog() == DialogResult.OK && File.Exists(openFileDialog.FileName))
             {
                 ChooseSourceFile(openFileDialog.FileName);
             }
@@ -194,7 +193,11 @@ namespace EngStatConverter
                     _DataSelectionForm.SetSelectionList(new List<String>(SelectionList));
 
                 _DataSelectionForm.SetFilename(CSVFileName);
-                _DataSelectionForm.ShowDialog();
+
+                if (_DataSelectionForm.ShowDialog() == DialogResult.Cancel)
+                {
+                    return;
+                }
 
                 List<String> newSelectionList = _DataSelectionForm.GetSelectionList();
 
@@ -251,8 +254,7 @@ namespace EngStatConverter
             if (ListViewData.Count > 0)
             {
                 saveFileDialog.FileName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
-                saveFileDialog.ShowDialog();
-                if (saveFileDialog.FileName != "")
+                if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName != "")
                     ExportNewCSV(saveFileDialog.FileName);
             }
             else
