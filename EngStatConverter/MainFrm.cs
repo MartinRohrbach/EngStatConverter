@@ -52,7 +52,22 @@ namespace EngStatConverter
                 }
                 else
                     MessageBox.Show("File not found");
-            } 
+
+            }
+
+            if (args.Length > 2)
+            {
+                if (args[2].ToUpper() == "/AUTO")
+                {
+                    
+
+
+                }
+                else
+                    MessageBox.Show("File not found");
+
+            }
+
             if (File.Exists(StartDir + "\\SelectionTemplates\\Default.esc"))
             {
                 WriteLog("Selected Columns:", true);
@@ -117,7 +132,8 @@ namespace EngStatConverter
 
         private void ChooseSourceFileBtn_Click(object sender, EventArgs e)
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK && File.Exists(openFileDialog.FileName))
+            openFileDialog.ShowDialog();
+            if (File.Exists(openFileDialog.FileName))
             {
                 ChooseSourceFile(openFileDialog.FileName);
             }
@@ -193,11 +209,7 @@ namespace EngStatConverter
                     _DataSelectionForm.SetSelectionList(new List<String>(SelectionList));
 
                 _DataSelectionForm.SetFilename(CSVFileName);
-
-                if (_DataSelectionForm.ShowDialog() == DialogResult.Cancel)
-                {
-                    return;
-                }
+                _DataSelectionForm.ShowDialog();
 
                 List<String> newSelectionList = _DataSelectionForm.GetSelectionList();
 
@@ -254,7 +266,8 @@ namespace EngStatConverter
             if (ListViewData.Count > 0)
             {
                 saveFileDialog.FileName = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
-                if (saveFileDialog.ShowDialog() == DialogResult.OK && saveFileDialog.FileName != "")
+                saveFileDialog.ShowDialog();
+                if (saveFileDialog.FileName != "")
                     ExportNewCSV(saveFileDialog.FileName);
             }
             else
