@@ -104,6 +104,7 @@
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "esc";
+            this.saveFileDialog1.Filter = "Template Files|*.esc";
             // 
             // LoadFromFileBtn
             // 
@@ -116,6 +117,11 @@
             this.LoadFromFileBtn.Text = "Load Template";
             this.LoadFromFileBtn.UseVisualStyleBackColor = true;
             this.LoadFromFileBtn.Click += new System.EventHandler(this.LoadFromFileBtn_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.DefaultExt = "/SelectionTemplates";
+            this.openFileDialog1.Filter = "Template Files|*.esc";
             // 
             // SearchTb
             // 

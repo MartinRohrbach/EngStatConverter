@@ -289,7 +289,8 @@ namespace EngStatConverter
 
         private void SaveToFileBtn_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.FileName = Path.GetFileNameWithoutExtension(CSVFilename) + ".esc";
+            saveFileDialog1.DefaultExt = "esc";
+            saveFileDialog1.InitialDirectory = "/SelectionTemplates";
             saveFileDialog1.ShowDialog();
             if (saveFileDialog1.FileName != "")
             {

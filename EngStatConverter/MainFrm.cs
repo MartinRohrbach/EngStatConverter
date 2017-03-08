@@ -41,6 +41,8 @@ namespace EngStatConverter
             string[] args = Environment.GetCommandLineArgs();
 
             StartDir = Path.GetDirectoryName(args[0]);
+            if (StartDir != "")
+                StartDir = StartDir + "\\";
 
             if (args.Length > 1)
             {
@@ -55,23 +57,53 @@ namespace EngStatConverter
 
             }
 
-            if (args.Length > 2)
+            // Cmd Line Automation
+            if (args.Length >= 2)
             {
+
                 if (args[2].ToUpper() == "/AUTO")
                 {
-                    
 
+                    if (File.Exists(StartDir + "SelectionTemplates\\" + args[3]))
+                    {
 
+                        
+                        // Load Selection Template
+                        string[] temp = System.IO.File.ReadAllLines(StartDir + "SelectionTemplates\\" + args[3]);
+                        foreach (string line in temp)
+                        {
+                            SelectionList.Add(line);
+                            WriteLog(line, false);
+                        }
+
+                        Console.WriteLine(SelectionList.Count.ToString());
+
+                        // Start Conversion
+                        backgroundWorkerConversion.RunWorkerAsync();
+                        using (progressDialog = new ProgressDialog())
+                        {
+                            progressDialog.ShowDialog(this);
+                        }
+                        progressDialog = null;
+                        if (backgroundWorkerConversion.IsBusy) backgroundWorkerConversion.CancelAsync();
+
+                        // Save CSV                        
+                        ExportNewCSV(Path.GetDirectoryName(CSVFileName)+"\\"+ Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv");
+                    }
+                    else
+                        MessageBox.Show("Selection Template not found");
                 }
                 else
-                    MessageBox.Show("File not found");
+                    MessageBox.Show("Wrong Parameter");
 
+                MessageBox.Show("Ende");
+                System.Environment.Exit(1);
             }
 
-            if (File.Exists(StartDir + "\\SelectionTemplates\\Default.esc"))
+            if (File.Exists(StartDir + "SelectionTemplates\\Default.esc"))
             {
                 WriteLog("Selected Columns:", true);
-                string[] temp = System.IO.File.ReadAllLines(StartDir + "\\SelectionTemplates\\Default.esc");
+                string[] temp = System.IO.File.ReadAllLines(StartDir + "SelectionTemplates\\Default.esc");
                 foreach (string line in temp)
                 {
                     SelectionList.Add(line);
@@ -80,7 +112,7 @@ namespace EngStatConverter
                 DefaultSelectionListCount = SelectionList.Count;
             } else DefaultSelectionListCount = -1;
 
-            if (File.Exists(StartDir + "\\ExcelTemplates\\PerfAnalyseTemplate.xlsm"))
+            if (File.Exists(StartDir + "ExcelTemplates\\PerfAnalyseTemplate.xlsm"))
                 ExcelFound = true;
             else
                 ExcelFound = false;
@@ -494,13 +526,13 @@ namespace EngStatConverter
                         TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
                         ExportNewCSV(TempCSVFileName);
 
-                        if (File.Exists(StartDir + "\\ExcelTemplates\\PerfAnalyseTemplate.xlsm"))
+                        if (File.Exists(StartDir + "ExcelTemplates\\PerfAnalyseTemplate.xlsm"))
                         {
                             // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
                             TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
                             Process p = new Process();
                             p.StartInfo.FileName = ExcelPath;
-                            p.StartInfo.Arguments = "\"" + StartDir + "\\ExcelTemplates\\PerfAnalyseTemplate.xlsm\" /e/" + TempCSVFileName;
+                            p.StartInfo.Arguments = "\"" + StartDir + "ExcelTemplates\\PerfAnalyseTemplate.xlsm\" /e/" + TempCSVFileName;
                             p.Start();
                         }
                         else MessageBox.Show("Excel Template not found");
@@ -526,13 +558,13 @@ namespace EngStatConverter
                     TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
                     ExportNewCSV(TempCSVFileName);
 
-                    if (File.Exists(StartDir + "\\ExcelTemplates\\Template.xlsm"))
+                    if (File.Exists(StartDir + "ExcelTemplates\\Template.xlsm"))
                     {
                         // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
                         TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
                         Process p = new Process();
                         p.StartInfo.FileName = ExcelPath;
-                        p.StartInfo.Arguments = "\"" + StartDir + "\\ExcelTemplates\\Template.xlsm\" /e/" + TempCSVFileName;
+                        p.StartInfo.Arguments = "\"" + StartDir + "ExcelTemplates\\Template.xlsm\" /e/" + TempCSVFileName;
                         p.Start();
                     }
                     else MessageBox.Show("Excel Template not found");
@@ -556,13 +588,13 @@ namespace EngStatConverter
                     TempCSVFileName = Path.GetTempPath() + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv";
                     ExportNewCSV(TempCSVFileName);
 
-                    if (File.Exists(StartDir + "\\ExcelTemplates\\TTTemplate.xlsm"))
+                    if (File.Exists(StartDir + "ExcelTemplates\\TTTemplate.xlsm"))
                     {
                         // Crap. The /e params cannot contain blanks. Hmpf. Use double \\ to mask them
                         TempCSVFileName = TempCSVFileName.Replace(" ", "\\\\");
                         Process p = new Process();
                         p.StartInfo.FileName = ExcelPath;
-                        p.StartInfo.Arguments = "\"" + StartDir + "\\ExcelTemplates\\TTTemplate.xlsm\" /e/" + TempCSVFileName;
+                        p.StartInfo.Arguments = "\"" + StartDir + "ExcelTemplates\\TTTemplate.xlsm\" /e/" + TempCSVFileName;
                         p.Start();
                     }
                     else MessageBox.Show("Excel Template not found");
