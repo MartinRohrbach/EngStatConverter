@@ -8,17 +8,21 @@ using Microsoft.Win32;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace EngStatConverter
 {
-
     public partial class MainForm : Form
     {
+        [DllImport("kernel32.dll")]
+        static extern bool AttachConsole(int dwProcessId);
+
         string NewLine = System.Environment.NewLine;
 
         private List<string> SelectionList = new List<string>();
         private List<string> ChartSelectionList = new List<string>();
-        
+
+        private bool consoleMode = false;
         private bool TableFinshed;
         private int ChartType = 0;
         private bool ChartStacked = false;
@@ -31,6 +35,7 @@ namespace EngStatConverter
         List<string> ListViewHeader = new List<string>();
         List<List<string>> ListViewData = new List<List<String>>();
 
+
         public MainForm()
         {
             InitializeComponent();
@@ -40,64 +45,107 @@ namespace EngStatConverter
             TableFinshed = false;
             string[] args = Environment.GetCommandLineArgs();
 
-            StartDir = Path.GetDirectoryName(args[0]);
+            string ExeFileName = args[0];
+            if (!System.IO.Path.IsPathRooted(ExeFileName))
+            {
+                ExeFileName = Directory.GetCurrentDirectory() + "\\" + ExeFileName;
+            }
+            StartDir = Path.GetDirectoryName(ExeFileName);
             if (StartDir != "")
                 StartDir = StartDir + "\\";
 
-            if (args.Length > 1)
+            // Cmd Line Automation, /auto and a filename
+            if (args.Length > 3)
             {
-                if (File.Exists(args[1]))
+                consoleMode = true;
+
+                // try attaching a console to log output there
+                bool haveConsole = AttachConsole(-1);
+ 
+                CSVFileName = args[1];
+                if (!System.IO.Path.IsPathRooted(CSVFileName))
                 {
-                    CSVFileName = args[1];
+                    CSVFileName = StartDir + CSVFileName;
+                }
+                if (!File.Exists(CSVFileName))
+                {
+                    if (haveConsole)
+                    {
+                        Console.WriteLine("File not found");
+                    }
+                    else
+                    {
+                        MessageBox.Show("File not found");
+                    }
+                    System.Environment.Exit(3);
+                }
+
+                if (args[2].ToUpper() == "/AUTO")
+                {
+                    string TemplateFile = args[3];
+                    if (!System.IO.Path.IsPathRooted(TemplateFile))
+                    {
+                        TemplateFile = StartDir + "SelectionTemplates\\" + TemplateFile;
+                    }
+                    if (File.Exists(TemplateFile))
+                    {
+
+                        // Load Selection Template
+                        string[] temp = System.IO.File.ReadAllLines(TemplateFile);
+                        foreach (string line in temp)
+                        {
+                            SelectionList.Add(line);
+                        }
+
+                        // Start Conversion
+                        backgroundWorkerConversion_DoWork(this, new System.ComponentModel.DoWorkEventArgs(this));
+
+                        // Save CSV         
+                        ExportNewCSV(Path.GetDirectoryName(CSVFileName) + "\\" + Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv");
+                    }
+                    else
+                    {
+                        if (haveConsole)
+                        {
+                            Console.WriteLine("Selection Template not found");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Selection Template not found");
+                        }
+                        System.Environment.Exit(2);
+                    }
+                }
+                else
+                {
+                    if (haveConsole)
+                    {
+                        Console.WriteLine("Wrong Parameter");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Wrong Parameter");
+                    }
+                    System.Environment.Exit(1);
+                }
+                System.Environment.Exit(0);
+
+            }
+            else if (args.Length > 1)
+            {
+                CSVFileName = args[1];
+                if (!System.IO.Path.IsPathRooted(CSVFileName))
+                {
+                    CSVFileName = StartDir + CSVFileName;
+                }
+                if (File.Exists(CSVFileName))
+                {
                     WriteLog("CSV File: " + CSVFileName + NewLine, true);
                     this.Text = "Eng Stats Converter - " + Path.GetFileName(CSVFileName);
                 }
                 else
                     MessageBox.Show("File not found");
 
-            }
-
-            // Cmd Line Automation
-            if (args.Length >= 2)
-            {
-
-                if (args[2].ToUpper() == "/AUTO")
-                {
-
-                    if (File.Exists(StartDir + "SelectionTemplates\\" + args[3]))
-                    {
-
-                        
-                        // Load Selection Template
-                        string[] temp = System.IO.File.ReadAllLines(StartDir + "SelectionTemplates\\" + args[3]);
-                        foreach (string line in temp)
-                        {
-                            SelectionList.Add(line);
-                            WriteLog(line, false);
-                        }
-
-                        Console.WriteLine(SelectionList.Count.ToString());
-
-                        // Start Conversion
-                        backgroundWorkerConversion.RunWorkerAsync();
-                        using (progressDialog = new ProgressDialog())
-                        {
-                            progressDialog.ShowDialog(this);
-                        }
-                        progressDialog = null;
-                        if (backgroundWorkerConversion.IsBusy) backgroundWorkerConversion.CancelAsync();
-
-                        // Save CSV                        
-                        ExportNewCSV(Path.GetDirectoryName(CSVFileName)+"\\"+ Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(CSVFileName)) + ".csv");
-                    }
-                    else
-                        MessageBox.Show("Selection Template not found");
-                }
-                else
-                    MessageBox.Show("Wrong Parameter");
-
-                MessageBox.Show("Ende");
-                System.Environment.Exit(1);
             }
 
             if (File.Exists(StartDir + "SelectionTemplates\\Default.esc"))
@@ -129,7 +177,7 @@ namespace EngStatConverter
                         ExcelFound = false;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 ExcelFound = false;
             }
@@ -359,7 +407,7 @@ namespace EngStatConverter
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
                 obj = null;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 obj = null;
             }
@@ -412,7 +460,8 @@ namespace EngStatConverter
             BackgroundWorker worker = sender as BackgroundWorker;
             List<int> SelectionIndexList = new List<int>();
 
-            listView1.Invoke((MethodInvoker)delegate
+            
+            if (!consoleMode) listView1.Invoke((MethodInvoker)delegate
             {
                 listView1.BeginUpdate();
                 listView1.Columns.Clear();
@@ -475,7 +524,7 @@ namespace EngStatConverter
                     if ((linecount++ % 100) == 0)
                     {
                         int progress = (linecount / 100) % 100;
-                        worker.ReportProgress(progress);
+                        if (worker != null) worker.ReportProgress(progress);
                     }
                 }
             }
@@ -484,7 +533,7 @@ namespace EngStatConverter
             {
                 e.Cancel = true;
             }
-            listView1.Invoke((MethodInvoker)delegate
+            if (!consoleMode) listView1.Invoke((MethodInvoker)delegate
             {
                 foreach (var Header in ListViewHeader.GetRange(0,ListViewHeader.Count > 100 ? 100 : ListViewHeader.Count))
                 {

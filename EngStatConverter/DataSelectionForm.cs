@@ -39,7 +39,7 @@ namespace EngStatConverter
             {
                 TemplateFiles = Directory.GetFiles(StartDir + "\\SelectionTemplates", "*.esc");
             }
-            catch (DirectoryNotFoundException dirEx) { }
+            catch (DirectoryNotFoundException) { }
 
             TemplateSelBox.Items.Clear();
             foreach (string Template in TemplateFiles)
