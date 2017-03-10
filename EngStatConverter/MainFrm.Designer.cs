@@ -33,6 +33,7 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.Log = new System.Windows.Forms.TextBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.TTExcelBtn = new System.Windows.Forms.Button();
             this.ExcelBtn = new System.Windows.Forms.Button();
             this.PerfExcelBtn = new System.Windows.Forms.Button();
@@ -45,13 +46,12 @@
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.backgroundWorkerConversion = new System.ComponentModel.BackgroundWorker();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog
@@ -106,6 +106,19 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(774, 48);
             this.panel1.TabIndex = 1;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.TTExcelBtn);
+            this.groupBox1.Controls.Add(this.ExcelBtn);
+            this.groupBox1.Controls.Add(this.PerfExcelBtn);
+            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox1.Location = new System.Drawing.Point(469, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(223, 45);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Excel Exports";
             // 
             // TTExcelBtn
             // 
@@ -231,19 +244,6 @@
             this.backgroundWorkerConversion.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorkerConversion_ProgressChanged);
             this.backgroundWorkerConversion.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorkerConversion_RunWorkerCompleted);
             // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.TTExcelBtn);
-            this.groupBox1.Controls.Add(this.ExcelBtn);
-            this.groupBox1.Controls.Add(this.PerfExcelBtn);
-            this.groupBox1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox1.Location = new System.Drawing.Point(469, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(223, 45);
-            this.groupBox1.TabIndex = 10;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Excel Exports";
-            // 
             // MainForm
             // 
             this.AllowDrop = true;
@@ -261,12 +261,12 @@
             this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
             this.DragEnter += new System.Windows.Forms.DragEventHandler(this.MainForm_DragEnter);
             this.panel1.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
