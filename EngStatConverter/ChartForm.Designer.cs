@@ -32,6 +32,7 @@
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChartForm));
             this.chart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ChartContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.SetStartTimeCMI = new System.Windows.Forms.ToolStripMenuItem();
@@ -216,6 +217,7 @@
             this.Controls.Add(this.SaveImageBtn);
             this.Controls.Add(this.CancelBtn);
             this.Controls.Add(this.chart);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(720, 500);
             this.Name = "ChartForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
