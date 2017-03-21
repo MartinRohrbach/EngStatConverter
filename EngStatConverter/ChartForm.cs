@@ -94,7 +94,7 @@ namespace EngStatConverter
                     if (ChartStacked)
                         chart.Series[Index].ChartType = SeriesChartType.StackedColumn;
                     else
-                        chart.Series[Index].ChartType = SeriesChartType.StackedColumn;
+                        chart.Series[Index].ChartType = SeriesChartType.Column;
                     break;
                 case 2:
                     if (ChartStacked)
