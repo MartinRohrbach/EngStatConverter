@@ -55,5 +55,11 @@ namespace EngStatConverter
         {
             System.Diagnostics.Process.Start("mailto:Martin.Rohrbach@dell.com");
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SamplesForm _SamplesForm = new SamplesForm();
+            _SamplesForm.ShowDialog();
+        }
     }
 }

@@ -130,7 +130,7 @@
             this.SaveImageBtn.Location = new System.Drawing.Point(617, 456);
             this.SaveImageBtn.Name = "SaveImageBtn";
             this.SaveImageBtn.Size = new System.Drawing.Size(75, 23);
-            this.SaveImageBtn.TabIndex = 2;
+            this.SaveImageBtn.TabIndex = 5;
             this.SaveImageBtn.Text = "Save Image";
             this.SaveImageBtn.UseVisualStyleBackColor = true;
             this.SaveImageBtn.Click += new System.EventHandler(this.SaveImageBtn_Click);
@@ -148,7 +148,7 @@
             this.LeftAxisMaxTb.MaxLength = 7;
             this.LeftAxisMaxTb.Name = "LeftAxisMaxTb";
             this.LeftAxisMaxTb.Size = new System.Drawing.Size(54, 20);
-            this.LeftAxisMaxTb.TabIndex = 3;
+            this.LeftAxisMaxTb.TabIndex = 2;
             this.LeftAxisMaxTb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AxisMaxTb_Keypress);
             // 
             // label2
@@ -168,7 +168,7 @@
             this.ApplyBtn.Location = new System.Drawing.Point(460, 456);
             this.ApplyBtn.Name = "ApplyBtn";
             this.ApplyBtn.Size = new System.Drawing.Size(42, 23);
-            this.ApplyBtn.TabIndex = 5;
+            this.ApplyBtn.TabIndex = 4;
             this.ApplyBtn.Text = "apply";
             this.ApplyBtn.UseVisualStyleBackColor = true;
             this.ApplyBtn.Click += new System.EventHandler(this.ApplyBtn_Click);
@@ -201,7 +201,7 @@
             this.RightAxisMaxTb.MaxLength = 7;
             this.RightAxisMaxTb.Name = "RightAxisMaxTb";
             this.RightAxisMaxTb.Size = new System.Drawing.Size(54, 20);
-            this.RightAxisMaxTb.TabIndex = 7;
+            this.RightAxisMaxTb.TabIndex = 3;
             // 
             // ChartForm
             // 

@@ -37,15 +37,16 @@
             this.MailLinkSchlueter = new System.Windows.Forms.LinkLabel();
             this.MailLinkRohrbach = new System.Windows.Forms.LinkLabel();
             this.label4 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CloseBtn
             // 
             this.CloseBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.CloseBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CloseBtn.Location = new System.Drawing.Point(222, 127);
+            this.CloseBtn.Location = new System.Drawing.Point(210, 179);
             this.CloseBtn.Name = "CloseBtn";
-            this.CloseBtn.Size = new System.Drawing.Size(50, 23);
+            this.CloseBtn.Size = new System.Drawing.Size(62, 23);
             this.CloseBtn.TabIndex = 0;
             this.CloseBtn.Text = "Close";
             this.CloseBtn.UseVisualStyleBackColor = true;
@@ -116,10 +117,10 @@
             this.MailLinkRohrbach.AutoSize = true;
             this.MailLinkRohrbach.Location = new System.Drawing.Point(80, 52);
             this.MailLinkRohrbach.Name = "MailLinkRohrbach";
-            this.MailLinkRohrbach.Size = new System.Drawing.Size(166, 13);
+            this.MailLinkRohrbach.Size = new System.Drawing.Size(160, 13);
             this.MailLinkRohrbach.TabIndex = 8;
             this.MailLinkRohrbach.TabStop = true;
-            this.MailLinkRohrbach.Text = "mailto:Martin.Rohrbach@dell.com";
+            this.MailLinkRohrbach.Text = "mailto:martin.rohrbach@dell.com";
             this.MailLinkRohrbach.Click += new System.EventHandler(this.MailLinkRohrbach_Click);
             // 
             // label4
@@ -131,14 +132,25 @@
             this.label4.TabIndex = 7;
             this.label4.Text = "Martin Rohrbach";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(12, 179);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(64, 23);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Samples";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // AboutFrm
             // 
             this.AcceptButton = this.CloseBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.CloseBtn;
-            this.ClientSize = new System.Drawing.Size(280, 158);
+            this.ClientSize = new System.Drawing.Size(280, 210);
             this.ControlBox = false;
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.MailLinkRohrbach);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.MailLinkSchlueter);
@@ -172,5 +184,6 @@
         private System.Windows.Forms.LinkLabel MailLinkSchlueter;
         private System.Windows.Forms.LinkLabel MailLinkRohrbach;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Button button1;
     }
 }

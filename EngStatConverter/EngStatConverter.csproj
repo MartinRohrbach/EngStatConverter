@@ -98,6 +98,12 @@
     <Compile Include="AboutFrm.Designer.cs">
       <DependentUpon>AboutFrm.cs</DependentUpon>
     </Compile>
+    <Compile Include="SamplesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SamplesForm.Designer.cs">
+      <DependentUpon>SamplesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProgressDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +135,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="AboutFrm.resx">
       <DependentUpon>AboutFrm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SamplesForm.resx">
+      <DependentUpon>SamplesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProgressDialog.resx">
       <DependentUpon>ProgressDialog.cs</DependentUpon>
